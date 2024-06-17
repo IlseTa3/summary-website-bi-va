@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Business Intelligence & Visual Analytics</title>
+</head>
+<body>
+    <h1>Business Intelligence & Visual Analytics</h1>
+    <h2 id="data-analyse-mining-science">Data Analyse, Data Mining en Data Science</h2>
+    <section id="hoofdstuk3">
+        <h3 id="gebruik-dw">Het gebruik van het Data Warehouse</h3>
+        <article class="3-3">
+            <p>Data Warehouse en Data Marts zijn cruciale componenten om VA te ondersteunen. VA is een onderdeel van de beslissingsneming: door het visueel analyseren van informatie kan men tot inzichten komen die toelaten om correctere beslissingen te nemen. <br>
+            Beslissingen nemen is een proces dat doorlopen wordt door één of meerdere verantwoordelijken. Binnen BI onderscheid tussen 3 soorten processen, nl (voor uitleg, zie volgende deelhoofdstukken):</p>
+            <ul>
+                <li>Querying and Reporting (Ondervragen en Rapporteren)</li>
+                <li>OLAP - On-Line Analytical Processing (Multi-Dimensionele analyse)</li>
+                <li>Data Mining</li>
+            </ul>
+            <p>Querying and Reporting wordt ook wel <span class="special-attention">Verification Driven BI</span> genoemd. Data Mining wordt ook wel <span class="special-attention">Discovery Driven BI</span> genoemd. Multi-Dimensionele analyse is deels Verification driven en deels Discovery driven. Wat wordt hiermee bedoeld?</p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Verification Driven:
+                    <dd class="dd-versie1">Men gaat een vermoeden nagaan, verifiëren</dd>
+                </dt>
+                <dt class="dt-versie2">Discovery Driven:
+                    <dd class="dd-versie2">Men trekt op onderzoek uit, men weet niet op voorhand waar men zal terechtkomen en welke bevindingen er gemaakt zullen worden.</dd>
+                </dt>
+            </dl>
+            <p>Nog een verschil tussen de drie processen is het volume aan gegevens waarmee men zal gaan werken.</p>
+            <ul>
+                <li>Querying and Reporting: geen restrictie, men kan met alle data - van groot tot zeer klein - nuttige resultaten besproken</li>
+                <li>Multi-Dimensionele: kan pas vanaf een zekere volume, omdat aggregaties of samenvattende berekeningen pas nuttig worden bij voldoende individuele gegevens</li>
+                <li>Data Mining: relatief grote gegevens waaruit men zinvolle conclusies kan trekken</li>
+            </ul>
+        </article>
+        <h3 id="ondervragen-rapporteren">Ondervragen en Rapporteren (Querying and Reporting)</h3>
+        <article class="3-3">
+            <p>Niveau van detail kan variëren van heel laag tot heel hoog. Voorbeeld: strategisch rapport op wereldwijd niveau = laag, individuele verkoopstransacties = hoog. Ondervragen en rapporteren speelt zich af op alle niveaus binnen een bedrijf. Er moeten goede antwoorden gevonden worden en dit wel <span class="special-attention">nu en op een accurate wijze</span>. <br>
+            Het proces bestaat uit 5 grote stappen:</p>
+            <ul>
+                <li>Definitie van de query of ondervraging. Kan in SQL geschreven worden door de gebruiker of er kunnen SQL-statements gegenereerd worden door de gebruikte tool.</li>
+                <li>Gegevens worden opgezocht en opgehaald. Resultaat: niet geformatteerde tabel of <span class="special-attention">Result Set</span></li>
+                <li>Indien nodig bijkomende berekeningen op die Result Set.</li>
+                <li>Rapport wordt gepresenteerd op een visuele wijze. Hier komt VA aan te pas. VA zal gebruik maken van intuïtieve en grafische voorstellingen</li>
+                <li>Afleveren van het rapport. Hier bepaalt men hoe het resultaat zal terechtkomen bij de eindgebruiker.</li>
+            </ul>
+            <p>Voor complexe rapporten zal men vaak beroep doen op <span class="special-attention">Power Users</span>: gebruikers met goede kennis van de onderliggende databases en gebruikte tools. Dit om ondervragingen en rapporten op voorhand klaar te maken voor een welbepaalde gebruikersgroep. <br>
+            Voordeel hiervan: deze gebruikersgroep moet dan enkel de ondervragingen en rapporten personaliseren of fine-tunen aan de hand van een aantal parameters. Deze aanpak heeft als voordeel dat de uitgevoerde query zodanig kan geoptimaliseerd worden dat er een minimale impact is op de performance van het IT-systeem. Dit wordt ook wel <span class="special-attention">Canned Reporting</span> genoemd. Het rapport is als het ware <span class="special-attention">ingeblikt</span> en klaar voor gebruik, zoals een blikje bier of frisdrank tijdens feestje in augustus.</p>
+            <p>Een andere situatie is <span class="special-attention">Ad Hoc Reporting</span>: hierbij weet men niet op voorhand welke het formaat zal zijn van de rapporten, noch het idee over hoe de ondervragingen eruit zullen zien. <br>
+            Voordeel: ultieme vrijheid, maar nadeel: het gevaar van de performance van het totale systeem en de responstijd van de individuele eindgebruiker.De eindgebruiker is immers zelf verantwoordelijk voor deze <span class="special-attention">Service Levels</span>. Er zijn moderne tools die een vorm van <span class="special-attention">Self Healing</span> doen, m.a.w. het autonoom optimaliseren van de performance, maar er is geen garantie dat alles even vlekkeloos zal verlopen. <br>
+            Conclusie: Indien mogelijk, beter werken met <span class="special-attention">Canned Reporting</span>.</p>
+        </article>
+        <h3 id="multi-dimensionele-analyse">Multi-Dimensionele Analyse (OLAP)</h3>
+        <article class="3-3">
+            <div class="h4-container">
+                <h4 id="fasmi">De alternatieve term voor OLAP, FASMI</h4>
+            </div>
+            <p><span class="special-attention">FASMI: Fast Analysis of Shared Multi-Dimensional Information</span> of vrij vertaald: <span class="special-attention">Snelle analyse van gedeelde multidimensionele informatie</span>. Wordt niet vaak gebruikt, OLAP is bekender. FASMI:</p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">FAST of Snel
+                    <dd class="dd-versie1">Systeem is er op gericht de meeste responses in minder dan 5 seconden te tonen.</dd>
+                    <dd class="dd-versie1">Leveranciers gebruiken breed scala aan technieken om dit doel te bereiken.</dd>
+                    <dd class="dd-versie1">Denk maar aan: gespecialiseerde vormen van gegevensopslag, uitgebreide voorcalculaties en specifieke hardware infrastructuur</dd>
+                </dt>
+                <dt class="dt-versie2">Analysis of Analyse
+                    <dd class="dd-versie2">Het systeem kan elke bedrijfslogica en statistische analyse aan die relevant is voor de applicatie en gebruiker en dit eenvoudig overbrengt naar de doelgebruiker.</dd>
+                    <dd class="dd-versie2">De gebruiker moet nieuwe ad-hoc berekeningen kunnen definiëren als onderdeel van de analyse en op elke gewenste manier hierover kunnen rapporteren, zonder enige kennis van programmeren. </dd>
+                    <dd class="dd-versie2">Low Code of No Code</dd>
+                </dt>
+                <dt class="dt-versie1">Shared of Gedeeld
+                    <dd class="dd-versie1">Het systeem implementeert alle beveiligingsvereisten voor vertrouwelijkheid en, bij gelijktijdige updatevergrendeling toegepast op een geschikt niveau, waardoor aanpassingen door één gebruiker niet kan overschreven worden door een andere gebruiker die gelijktijdige toegang heeft tot dezelfde cellen.</dd>
+                    <dd class="dd-versie1">Niet alle applicaties hebben gebruikers die gegevens willen wegschrijven, maar het systeem moet deze meerdere gelijktijdige updates wel op een veilige en geïsoleerde manier kunnen verwerken.</dd>
+                </dt>
+                <dt class="dt-versie2">Multidimensional of Multi-Dimensioneel
+                    <dd class="dd-versie2">Belangrijkste vereiste</dd>
+                    <dd class="dd-versie2">Het systeem moet een multidimensionaal conceptueel beeld van de gegevens bieden, incluis volledige ondersteuning voor hiërarchieën en eventueel meerdere hiervan.</dd>
+                    <dd class="dd-versie2">Vaak meest logische manier om bedrijven en organisaties te analyseren.</dd>
+                </dt>
+                <dt class="dt-versie1">Information of Informatie
+                    <dd class="dd-versie1">Alle benodigde, betekenisvolle en geïnterpreteerde gegevens en de afgeleide informatie relevant voor de toepassing</dd>
+                    <dd class="dd-versie1">Informatie wordt omgezet in Inzichten of Wijsheid.</dd>
+                </dt>
+            </dl>
+            <div class="h4-container">
+                <h4 id="olap-operaties">OLAP operaties</h4>
+            </div>
+            <p>OLAP is per definitie Multi-Dimensioneel. Op papier of scherm is dat 2 dimensies. Om dat te tonen op een multidimensionale manier maakt men gebruik van matrixrepresentaties. <br>
+            Matrices worden ook gebruikt om een aantal typische OLAP-operaties te introduceren samen met hun gangbare termen. Kort aangehaald in hoofdstuk 1.</p>
+            <p>Voorbeeld drill-down en drill-up pg 89-90</p>
+        <div class="h4-container">
+            <h4 id="olap-ster-schema">OLAP en het Ster Schema</h4>
+        </div>
+            <p>Ster Schema werd uitgebreid uitgelegd in hoofdstuk 2. Op pagina 90 onderaan een voorbeeld van een 3-dimensionele kubus. Wat uitleg hierbij:</p>
+            <ul>
+                <li>Drie dimensies: Product, Market, Time</li>
+                <li>Elke dimensie zie je kolommen, die een waarde in de dimensie voorstellen</li>
+                <li>Waar drie kolommen van een andere dimensie elkaar telkens snijden vinden we een cel terug of klein kubusje.</li>
+                <li>In dat kubusje of cel zitten samengebrachte metingen, telkens horende bijde combinatie van dimensie-waarden</li>
+                <li>Een cel komt overeen met een Feit of Fact en elk Feit bevat een aantal metingen.</li>
+            </ul>
+            <p>OLAP bestaat er in om met behulp van deze kubus gegevens te analyseren. een aantal bijkomende OLAP termen hierbij zijn:</p>
+            <ul>
+                <li>Focus op 1 kolom van een dimensie, vb 1 product, en men onderzoekt de marktevolutie over de tijd heen voor dat specifieke product: <span class="special-attention">Sliding of Snijden</span>, onderzoek van 1 snede van de 3-dimensionele kubus</li>
+                <li>Verandert men van focus dimensie en voert men onderzoek uit op basis van een bepaalde maand en jaartal, dan gooit men de 3-dimensionele kubus op een andere zijde. Dit wordt <span class="special-attention">Dicing of Dobbelen</span> genoemd, oftewel omschakelen naar andere focus-dimensies.</li>
+            </ul>
+            <p>Op basis van bovenstaande gegevens kunnen we Ster Schema hiervoor aanmaken. Zie pag. 91 onderaan. Er is een verschil in voorstellingscapaciteit. De 3D-kubus kan niet worden uitgebreid naar een 4e dimensie of zelfs niet naar andere dimensies. Het Ster Schema daarentegen heeft geen technische beperkingen: men kan zoveel dimensies toevoegen als het nuttig lijkt. Moet wel behapbaar blijven voor de gebruiker.</p>
+            <p>Een manier om met 2-D spreadsheets te werken om 3-D resultaat te laten tonen, is om met behulp van meerdere spreadsheets of Tabs te werken in één spreadsheet.</p>
+        <div class="h4-container">
+            <h4 id="olap-termen"> OLAP termen</h4>
+        </div>
+            <p>Aantal belangrijke OLAP-termen:</p>
+            <ul>
+                <li>Meting/Measure: numeriek gewaardeerde kwantificator van een bedrijfsactiviteit.</li>
+                <li>Feit/Fact: een verzameling van metingen.</li>
+                <li>Dimensie/Dimension: een attribuut dat betekenis of relevantie geeft aan een Feit.</li>
+                <li>Granulariteit/Granularity: het laagtste detailniveau voor de meting in een Feit.</li>
+                <li>Dimensiehiërarchie/Dimension Hierarchy: structuur in een dimensie met basisattributen.</li>
+                <li>Aggregatieniveau/Aggregation Level: verzameling van attributen die een gewenste samenvatting van meetwaarden kwalificeren.</li>
+            </ul>
+            <p>Niet altijd even eenvoudig om te weten welke analyses de eindgebruiker wil doen. Op pagina 93 onderaan en pagina 94 bovenaan twee mogelijke simpele voorbeelden om dit te duiden.</p>
+        <div class="h4-container">
+            <h4 id="verschil-multidim-rdbms">Het verschil tussen Multi-Dimensioneel en RDBMS</h4>
+        </div>
+            <p>Een OLAP-systeem maakt gebruik van multidimensionele analysetechnieken om kenniswerkers in staat te stellen gegevens intuïtief, snel en flexibel te manipuleren, hierbij gebruik makende van de business termen waarmee ze vertrouwd zijn. Het verschil tussen MDBMS en RDBMS is als volgt: <br>
+            <span class="special-attention">Een MDBMS:</span></p>
+            <ul>
+                <li>Is geoptimaliseerd voor query's en rapportage;</li>
+                <li>Is eerder beperkt in gebruik;</li>
+                <li>Kan snel niet al te complexe vragen beantwoorden;</li>
+                <li>Niet gebouwd voor dynamische aanpassing van de gegevens, en er is een eerder beperkte gegevensupdate mogelijk;</li>
+                <li>Wendt de OLAP-engine aan om de database query's te bouwen;</li>
+                <li>Creëert de Multi-Dimensionele kubus opnieuw, om nieuwe gegevens op te laden</li>
+            </ul>
+            <p><span class="special-attention">Een RDBMS is ...:</span> </p>
+            <ul>
+                <li>Geoptimaliseerd voor transactiesystemen en de geassocieerde INSERT, UPDATE en DELETE operaties;</li>
+                <li>Veelzijdig en ondersteunt veel uiteenlopende toepassingsgebieden;</li>
+                <li>Gebouwd om eventueel zeer complexe query's uit te voeren;</li>
+                <li>In staat om eenvoudigweg gegevens en structuur toe te voegen en te wijzigen, wat de bedoeling is van normalisatie van het oorspronkelijke conceptuele datamodel;</li>
+                <li>Ontworpen voor databasequery's in SQL;</li>
+                <li>In staat tot ondersteuning van OLAP, maar niet zo efficiënt als een echte multidimensionele database.</li>
+            </ul>
+            <h5>Hoe wordt OLAP technisch gerealiseerd? </h5>
+            OLAP is mogelijk dankzij een OLAP <span class="special-attention">engine</span> of motor. Deze motor maakt de OLAP-operaties logisch mogelijk en manipuleert de daaronder liggende datastructuren ten behoeve van de eindgebruiker. <br>
+            Deze <span class="special-attention">Engine</span> wordt ook <span class="special-attention">OLAP Server </span> genoemd. <br>
+            De <span class="special-attention">Clients</span> van een OLAP Server kunnen uiteenlopend zijn, gaande van MS Excel of een andere spreadsheet software, over een <span class="special-attention">web client</span> of een zogenaamde <span class="special-attention">fat client</span>  (speciale software die men installeert op het werkstation van de eindgebruiker en die dan communiceert met de OLAP Server), en een <span class="special-attention">mobile client</span>. Een OLAP Server heeft ook een <span class="special-attention">Administrative Client</span>, alsook een API voor de toegang door allerlei applicaties. <br><br>
+            <i>Hoe wordt een OLAP Server nu zelf geïmplementeerd? Drie verschillende aanpakken:</i></p>
+            <h5 id="molap">1. MOLAP of Multi-Dimensionele OLAP-Engine</h5>
+            <ul>
+                <li>De gegevens worden opgeslagen in een speciale kubusstructuur, specifiek voor de OLAP-engine;</li>
+                <li>Een Multi-Dimensionele kubus kan met korte responstijden worden aangewend door gebruikers, vanuit elke invalshoek;</li>
+                <li>Voor samenvattingen of aggregaties zijn er verschillende opties (zie hieronder)</li>
+                <li>Er bestaan cache-technieken, waarbij tussentijdse resultaten in het geheugen blijven opgeslagen om de prestaties te verbeteren ten koste van hoger RAM-gebruik.</li>
+            </ul>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Optie 1 samenvatting of aggregatie: Van tevoren in de kubus opgeslagen
+                    <dd class="dd-versie1">Deze aanpak verbruikt ruimte, maar ondersteunt zeer goede prestaties.</dd>
+                </dt>
+                <dt class="dt-versie2">Optie 2: Ad-hoc berekend
+                    <dd class="dd-versie2">Verbruikt minder ruimte, maar de performance is iets lager</dd>
+                </dt>
+            </dl>
+            <h5 id="rolap">2. ROLAP of Relationele OLAP-Engine</h5>
+            <ul>
+                <li>De gegevens zijn opgeslagen in een RDBMS en deze zijn toegankelijk via complexe SQL-instructies;</li>
+                <li>ROLAP wordt meestal gebruikt wanneer een groot aantal attributen vereist is;</li>
+                <li>Speciale indexmechanismen kunnen de prestaties verbeteren. Hangt af van de gebruikte RDBMS.</li>
+            </ul>
+            <h5 id="holap">3. HOLAP of Hybride OLAP-Engine</h5>
+            <ul>
+                <li>Combo van MOLAP en ROLAP;</li>
+                <li>De samenvattende gegevens, die vaakst worden gebruikt, worden onder de vorm van MOLAP opgeslagen en aangeboden.</li>
+                <li>De gedetaileerde gegevens, die nodig zijn in een beperkt aantal ondervragingen en analyses, worden in een onderliggend ROLAP-formaat beheerd.</li>
+                <li>HOLAP is interessant voor relatief volumineuze kubussen, waarvoor meestal alleen een samengevat deel nodig is en af een toe een detail wordt opgevraagd.</li>
+            </ul>
+        </article>
+        <h3>Data Mining</h3>
+        <article class="3-3">
+            <div class="h4-container">
+                <h4>Basisconcepten van Data Mining</h4>
+            </div>
+            <p>Een definitie van Data Mining: </p>
+            <ul>
+                <li>Data Mining is de verkenning en analyse van grote hoeveelheden gegevens,</li>
+                <li>die om onbekende of verborgen, doch begrijpelijke en bruikbare informatie te ontdekken en</li>
+                <li>deze te gebruiken om zakelijke beslissingen te nemen,</li>
+                <li>en de implementatie ervan te ondersteunen,</li>
+                <li>inclusief het formuleren van tactische en strategische initiatieven, alsook het meten van hun succes.</li>
+            </ul>
+            <p>Belangrijke woorden van deze definitie:</p>
+            <ul>
+                <li>verborgen</li>
+                <li>bruikbare</li>
+                <li>beslissingen nemen</li>
+                <li>tactische en strategisch</li>
+                <li>meten van succes.</li>
+            </ul>
+            <p>De start is altijd een business probleem. Op het einde willen we resultaten toepassen nadat we informatie met de juiste intuïtieve VA technieken begrepen hebben, of er inzicht van gemaakt hebben. Transformatie is hier ook even belangrijk, alsook het selecteren van de relevante data. De toepassingsgebieden van Data Mining is zeer uiteenlopend. Op pagina 98 een aantal voorbeelden hiervan. Hieronder wat meer uitleg: </p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Target Marketing
+                    <dd class="dd-versie1">wat is de marketing-campagne met de meeste impact?</dd>
+                    <dd class="dd-versie1">En dit op vlak van inhoud, geadresseerden, periode, kanalen en duur?</dd>
+                </dt>
+                <dt class="dt-versie2">Relationship Management
+                    <dd class="dd-versie2">welke relaties zijn de meest relevante termen van opbrengste?</dd>
+                    <dd class="dd-versie2">met welke frequentie moeten we de communicatie onderhouden?</dd>
+                </dt>
+                <dt class="dt-versie1">Market Basket Optimization
+                    <dd class="dd-versie1">op basis van historische gegevens opzoek gaan naar producten en diensten die vaak samen worden gekocht, </dd>
+                    <dd class="dd-versie1">met deze kennis bepalen we het aanbod, inventaris, opstelling van de producten in een winkel, en</dd>
+                    <dd class="dd-versie1">tonen we de producten in een web shop applicatie.</dd>
+                </dt>
+                <dt class="dt-versie2">Cross Selling
+                    <dd class="dd-versie2">hoe kunnen we de aankopen door een klant uitbreiden naar aanverwante producten en diensten?</dd>
+                    <dd class="dd-versie2">En hoe kunnen we dat doen op hetzelfde ogenblik of gespreid over de tijd?</dd>
+                </dt>
+                <dt class="dt-versie1">Market Segmentation
+                    <dd class="dd-versie1">hoe kunnen we clusters van klanten creëren met dezelfde demografische kenmerken en consumenten-attitude?</dd>
+                    <dd class="dd-versie1">Als we deze clusters kunnen maken, hebben we meteen doelgroepen die we op equivalente wijze kunnen benaderen met nieuwe producten en diensten.</dd>
+                </dt>
+                <dt class="dt-versie2">Web Usage Analysis
+                    <dd class="dd-versie2">het klikgedrag van bezoekers van onze website ontdekken,</dd>
+                    <dd class="dd-versie2">wat het profiel is van de bezoekers die werkelijk overgaan tot een bestelling,</dd>
+                    <dd class="dd-versie2">en hoe we de layout van onze website kunnen aanpassen om meer kopende bezoekers te genereren.</dd>
+                </dt>
+                <dt class="dt-versie1"><b>Forecasting</b>
+                    <dd class="dd-versie1">voorspellingen in allerlei sectoren,</dd>
+                    <dd class="dd-versie1">gaande van de olieprijs, over het aantal verkeersongelukken, tot het weer.</dd>
+                </dt>
+                <dt class="dt-versie2">Customer Retention
+                    <dd class="dd-versie2">met welke aanpak kunnen we onze klanten behouden,</dd>
+                    <dd class="dd-versie2">gebaseerd op productaanbod, prijsreductie, persoonlijke contacten en service?</dd>
+                </dt>
+                <dt class="dt-versie1">Churn or Attribution Analysis
+                    <dd class="dd-versie1">het onderzoeken van de reden waarom klanten een andere leverancier kiezen</dd>
+                    <dd class="dd-versie1">Dus: waarom verliest een onderneming een klant?</dd>
+                </dt>
+                <dt class="dt-versie2">Underwriting
+                    <dd class="dd-versie2">in de verzekeringssector is dit het onderschrijven van een verzekerings polis.</dd>
+                    <dd class="dd-versie2">Het gaat om het werven van klanten door een verzekeringsmaatschappij met een competitief tarief dat toch nog winstgevend is voor de verzekeraar.</dd>
+                </dt>
+                <dt class="dt-versie1">Competitive Analysis
+                    <dd class="dd-versie1">het ontdekken van welke differentiële verkoopstrategie de concurrent aanwendt om plotseling een groot marktaandeel te verwerven.</dd>
+                </dt>
+                <dt class="dt-versie2">Healthcare Fraud
+                    <dd class="dd-versie2">door het ontdekken van veelvuldige en nagenoeg identiek behandelingen die telkens hoge tussenkomsten opleveren voor de patiënt en</dd>
+                    <dd class="dd-versie2">weten of deze behandelingen moeten onderzocht worden door een onafhankelijke expert.</dd>
+                </dt>
+                <dt class="dt-versie1">Inventory Optimization
+                    <dd class="dd-versie1">Hoe mijn inventaris zodanig aanvullen dat er nooit tekorten zijn en</dd>
+                    <dd class="dd-versie1">dat ik als handelaar niet teveel op voorhand investeer in het aankopen van producten, die mogelijks verouders of onbruikbaar werden?</dd>
+                </dt>
+                <dt class="dt-versie2">Quality Control
+                    <dd class="dd-versie2">Hoe test ik een minimaal aantal afgewerkte producten op een representatieve en betrouwbare wijze</dd>
+                    <dd class="dd-versie2">en dit zodat ik met een minimaal risico de producten op de markt kan brengen?</dd>
+                </dt>
+                <dt class="dt-versie1">Demand Forecasting
+                    <dd class="dd-versie1">Het voorspellen van de vraag naar een zekere service of product</dd>
+                    <dd class="dd-versie1">Zo kan er ingeschat worden welk talent men moet rekruteren of hoe groot de inventaris moetzijn die men voorziet.</dd>
+                </dt>
+                <dt class="dt-versie2">Business Scorecards
+                    <dd class="dd-versie2">Intuïtieve voorstelling van de KPI van de onderneming</dd>
+                    <dd class="dd-versie2">Zo kan de bedrijfsleider in een oogopslag begrijpen wat de gezondheid van zijn firma is.</dd>
+                </dt>
+            </dl>
+            <p>Op pagina 100 een afbeelding van de architectuur van een mogelijke Data Mining Software oplossing. Hierbij een aantal verklaringen:</p>
+            <ul>
+                <li>Er worden vooral data uit databases en files gebruikt.</li>
+                <li>Definities van de Data Mining Jobs en de gegevens die als input worden gebruikt, worden opgeslagen in de Mining Bases.</li>
+                <li>Mining kernels zijn de algoritmen die het Data Mining werk doen. Er zijn verschillende soorten, enkele voorbeelden zie verder. Juiste parameters moeten gespecificeerd worden.</li>
+                <li>De resultaten van de Data Mining oefeningen komen in de Mining Results terecht.</li>
+                <li>De gebruikers van het Data Mining Systeem kunnen de verschillende componenten gebruiken met behulp van een API.</li>
+                <li>Deze API's kunnen aangeroepen worden door VA tools, een Administratieve GUI of andere speciaal ontwikkelde applicaties en interfaces.</li>
+                <li>Een Processing Library bevat veel voorkomende combinaties van Kernels en bijhourende parameters voor populaire Use Cases, of Use Cases waarvan men vermoedt dat ze nog herhaaldelijk gaan voorkomen.</li>
+            </ul>
+        <div class="h4-container">
+            <h4>Een aantal voorbeelden van Data Mining Kernels</h4>
+        </div>   
+            <p>Hieronder een aantal Data Mining Kernels voorbeelden. Deze lijst is niet volledig. Voorbeelden per Kernel tussen pagina 101 - 104</p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Clustering
+                    <dd class="dd-versie1">Groepeert een verzameling van gegevensrecords, met verschillende kenmerkende variabelen, in deelverzamelingen met gelijkaardige kenmerken.</dd>
+                    <dd class="dd-versie1">Het is gebaseerd op het maximaliseren van de gelijkenis van records in dezelfde groep enerzijds en het maximaliseren van het verschil tussen records die zich bevinden in verschillende groepen anderzijds.</dd>
+                    <dd class="dd-versie1">Unsupervised Learning, omdat de categorieën niet gespecificeerd zijn.</dd>
+                </dt>
+                <dt class="dt-versie2">Classificatie
+                    <dd class="dd-versie2">Classificatie van nieuwe records op basis van een aantal kenmerken, gebaseerd op historische kennis van records met dezelfde types van kenmerken.</dd>
+                    <dd class="dd-versie2">Classificatie gebeurt in een discrete niet-numeriek belangrijke categorieën.</dd>
+                    <dd class="dd-versie2">Er wordt gewerkt met training data om classificatie model mee op te bouwen. Dit model wordt getest. Als deze test ons bekoort, wordt het algoritme als het ware <i>losgelaten</i> op nieuwe instanties van dezelfde soort records.</dd>
+                </dt>
+                <dt class="dt-versie1">Regressie
+                    <dd class="dd-versie1">Analoog met Classificatie, maar in plaats van discrete waarden, voorspellen we nu continue numeriek grootheden.</dd>
+                    <dd class="dd-versie1">Gebruik maken van historische data van objecten met hun corresponderend kenmerk, trainen en er een model mee testen, en</dd>
+                    <dd class="dd-versie1">voorspellen daarna het numerieke kenmerk voor nieuw aangeboden projecten. Wordt ook <i>Value Prediction</i> genoemd.</dd>
+                </dt>
+                <dt class="dt-versie2">Associatie Detectie
+                    <dd class="dd-versie2">Een verband tussen gebeurtenissen wordt ontdekt samen met de waarschijnlijkheid dat dit verband optreedt. Dit wordt <i>confidence</i> genoemd.</dd>
+                    <dd class="dd-versie2">en ook hoeveel keer deze combinatie van gebeurtenissen optreedt als percentage van alle gebeurtenissen. <i>Support</i>.</dd>
+                </dt>
+                <dt class="dt-versie1">Sequentieel Patroon
+                    <dd class="dd-versie1">Analoog met <i>Associatie Detectie</i>, maar voegt het element <i>tijd</i> toe aan de transactie.</dd>
+                    <dd class="dd-versie1">Als een gebeurtenis <i>A</i> zich voordoet op ogenblik t/A en een gebeurtenis <i>B</i> zich voordoet op ogenblik t/B waarbij t/B > t/A, dus later in de tijd, dan doet de gebeurtenis <i>C zich voor op tijdstip t/C waarbij dat t/C>t/b>t/A.</i></dd>
+                    <dd class="dd-versie1">Dit met een waarschijnlijkheid die kort bij 1 ligt.</dd>
+                </dt>
+                <dt class="dt-versie2">Similar Time Sequence/ Gelijkaardige Tijdreeks
+                    <dd class="dd-versie2">Een opeenvolging van waarnemingen voor een object <i>B</i> over een lange tijdsperiode dat hetzelfde gedrag vertoont als de opeenvolging van waarnemingen van een object <i>A</i>.</dd>
+                    <dd class="dd-versie2">Voor object <i>A</i> weet men welk effect deze waarnemingen hebben opgevolg. </dd>
+                    <dd class="dd-versie2">Men voorspelt hiermee welk effect zich zal voordoen voor het object <i>B</i>, en dit door per analogie of equivalentie te redeneren.</dd>
+                </dt>
+            </dl>
+            <p>CRISP-DM staat voor <span class="special-attention">Cross-Industry Standard Process of Data Mining</span>. Het is een sector-overschrijdende en open standaardproces voor Data Mining, dat algemene benaderingen beschrijft die worden gebruikt door Data Mining experts.</p>
+        <div class="h4-container">
+            <h4>Definitie van Data Science</h4>
+        </div>  
+            <p>Alle tot nu toe besproken disciplines behoren tot de wereld van Data Science of Wetenschap. Wat is het nu precies?</p>
+            <ul>
+                <li>Data Science is een interdisciplinair onderzoeksveld,</li>
+                <li>met betrekking tot wetenschappelijke methoden, processen en systemen</li>
+                <li>om kennis en inzichten te onttrekken uit gestructureerde en ongestructureerde data.</li>
+                <li>Het is een aanpak die statistiek, data-analyse en aanverwante methoden verenigt,</li>
+                <li>gebruikt makende van technieken en theorieën ontleend aan vele disciplines</li>
+                <li>Data Science omvat het voorbereiden van gegevens voor analyse,</li>
+                <li>het formuleren van problemen,</li>
+                <li>het analyseren van gegevens,</li>
+                <li>het ontwikkelen van oplossingen en</li>
+                <li>het presenteren van bevindingen om beslissingen op hoog niveau in een breed scal van toepassingsdomeinen te ondersteunen.</li>
+                <li>De Data Scientist moet beschikken over vaardigheden uit</li>
+                <li>de informatie, statistiek, wiskunde, Informatievisualisatie, gegevensintegratie, grafisch ontwerp, complexe systemen,</li>
+                <li>communicatie en dit alles gekoppeld aan een goede kennis van het bedrijf, bedrijfsproces en sector.</li>
+            </ul>
+        </article>
+    </section>
+</body>
+</html>

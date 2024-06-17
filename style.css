@@ -1,0 +1,177 @@
+@charset "UTF-8";
+:root {
+  margin: 0em 1.5em 1em 2.5em;
+  background-color: rgb(255, 239, 213);
+  font-family: "Raleway", serif;
+}
+
+h1 {
+  font-size: 4.5rem;
+  font-family: "Times New Roman", Times, serif;
+  border: 3px solid black;
+  text-align: center;
+  color: rgb(102, 51, 153);
+}
+
+h2 {
+  font-size: 3.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: rgb(109, 42, 65);
+  border-bottom: 3px solid red;
+}
+
+h3 {
+  font-size: 2.5rem;
+  display: inline-block;
+  border: 2.5px groove rgba(246, 100, 22, 0.2);
+  padding: 0.3em 0.2em 0.3em 0.2em;
+  color: rgb(8, 84, 86);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h4 {
+  font-size: 1.8rem;
+  color: rgb(85, 107, 47);
+  margin: 0.2em 0;
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 2px solid firebrick;
+}
+
+.h4-container {
+  display: inline-block;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+ul li {
+  position: relative;
+  list-style-type: none;
+  color: rgb(89, 49, 185);
+  padding: 0.5em;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+}
+
+ul li::before {
+  content: "■";
+  color: rgb(248, 12, 12);
+  display: inline-block;
+  margin: 0.5em;
+}
+
+i {
+  color: chocolate;
+  font-weight: bold;
+}
+
+.python-code-pandas, .basisfuncties-pandas, .indexing-slicing, .visualizing-data-matplotlib {
+  border: 3px solid black;
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.plotting-ht4 {
+  border: 3px solid rgb(231, 10, 10);
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.plotting-ht5 {
+  border: 3px solid rgb(154, 112, 6);
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.special-attention {
+  color: rgb(220, 20, 60);
+  font-weight: 500;
+}
+
+.code {
+  color: brown;
+  font-weight: bold;
+}
+
+.code-5 {
+  color: rgb(62, 4, 62);
+  font-weight: bold;
+}
+
+#line, #area, #histo, #bar, #pie, #box {
+  border: 3px groove rgb(237, 9, 237);
+  margin: 0.4em;
+  padding: 0.4em;
+}
+
+#scatter, #bubble, #waffle, #regression, #carto, #word {
+  border: 3px groove rgb(24, 4, 114);
+  margin: 0.4em;
+  padding: 0.5em;
+}
+
+.plotting-ht4-soorten, .plotting-ht5-soorten {
+  margin-left: 1.2em;
+  text-decoration: underline;
+  color: darkcyan;
+}
+
+dl.dl-versie1 {
+  border: 3px solid green;
+  margin: 2em;
+  padding: 0.3em;
+}
+
+dt.dt-versie1 {
+  border-bottom: 3px solid rgb(13, 24, 123);
+  color: brown;
+  font-weight: bolder;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+dd.dd-versie1 {
+  font-family: "Roboto", sans-serif;
+  border: 1px groove rgb(27, 10, 159);
+  padding: 0.2em;
+  margin: 0.5em;
+}
+
+dl.dl-versie2 {
+  border: 3px solid green;
+  margin: 2em;
+  padding: 0.3em;
+}
+
+dt.dt-versie2 {
+  border-bottom: 3px solid rgb(13, 24, 123);
+  color: rgb(95, 16, 75);
+  font-weight: bolder;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+dd.dd-versie2 {
+  font-family: "Raleway", serif;
+  border: 2px groove rgb(27, 10, 159);
+  padding: 0.2em;
+  margin: 0.5em;
+}
+
+p.span-special-attention {
+  border: 3px groove rgb(26, 20, 2);
+  margin: 0.5em;
+  padding: 0.4em;
+  font-family: "Raleway", serif;
+}
+
+#molap, #rolap, #holap {
+  border-bottom: 2px groove grey;
+  display: inline-block;
+  color: rgb(21, 100, 247);
+  font-weight: bolder;
+  font-family: Robot, serif;
+  margin: 1em;
+}/*# sourceMappingURL=style.css.map */

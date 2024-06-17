@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Business Intelligence & Visual Analytics</title>
+</head>
+<body>
+    <h1>Business Intelligence & Visual Analytics</h1>
+    <h2 id="va-python">Visual Analytics met Python</h2>
+    <section id="hoofdstuk4">
+        <article class="4-4">
+            <h3>Het gebruik van Matplotlib</h3>
+            <p>Matplotlib is een datavisualisatie bibliotheek in Python. Het is uitgerust met een scriptinterfase voor het snel en eenvoudig genereren van afbeeldingen. Het bestaat uit drie hoofdlagen:</p>
+            <ul>
+                <li>Back-end laag</li>
+                <li>Artist laag, waar het rekenwerk plaats vindt</li>
+                <li>Scripting laag, geschikt voor alledaagse doeleinden en ook beschouwd wordt als een lichtere scriptinterfase om algemene taken te vereenvoudigen</li>
+            </ul>
+            <p>De Scripting laag laat een snelle en gemakkelijke generatie van afbeeldingen en grafieken toe. Benodigde code is minimaal, je hoeft weinig kennis te hebben van programmeren. <br>
+            Hier wordt gebruik gemaakt van <span>inline</span> backend. <br>
+            Naast Matplotlib is er ook Pandas, een ingebouwde implementatie. Pandas is een softwarebibliotheek die geschreven is voor Python met het oog op gegevensmanipulatie en -analyse. Pandas biedt datastructuren en bewerkingen voor het manipuleren van numeriek tabellen en tijdreeksen. Het is een gratis software onder de BSD-Licentie. <br>
+            Pandas is afkomstig van <span>Panel data sets</span>, een econometrische term voor datasets die waarnemingen over meerdere tijdsperioden voor dezelfde individuen bevatten.</p>
+        </article>
+        <article class="4-4">
+            <h3>Onze Voorbeeld gegevens of Sample Data</h3>
+            <p>Wordt kort toegelicht op pag. 108 - 109. <br>
+            Pandas zal hier gebruikt worden voor de analyse van de gegevens alvorens er visualisaties worden aangemaakt. De gegevens worden geïmporteerd in een Pandas dataframe. Dat is een twee-dimensionele structuur of tabelstructuur, waarop berekeningen kunnen toegepast worden.</p>
+            <p>Importeren van de gegevens in de Panda dataframe: bibliotheek alsook xlrd bibliotheek importeren, dat nodig is om Excel-spreadsheetbestanden te extraheren. <br>
+            Daarna read_excel functie om gegevens in de dataframe te lezen. Dit wordt <span>df_can</span> genoemd. <br>
+            Als men wil weten of de gegevens correct zijn geïmporteerd, kan men de head-functie gebruiken. Men toont dan de eerste vijf rijen.</p>
+        </article>
+        <article class="4-4">
+            <h3>Line Plot</h3>
+            <h4>Wat is een Lijnplot of Lineplot?</h4>
+            <p>Het is een plot in de vorm van een reeks gegevenspunten die verbonden zijn door rechte lijnsegmenten. Wanneer moet dit worden gebruikt? <br>
+            Wanneer er een continue gegevensset is en er is interesse in het visualiseren van de gegegevens over een bepaalde periode. Pagina 111 voorbeeld. Hoe kan zo'n lijnplot gegenereerd worden? <br>
+            Hiervoor moet eerst de dataset voorbereid worden (zie volgend paragraaf).</p>
+            <h4>Voorbereiding op de dataset</h4>
+            <p>Er worden een aantal zaken aangepast, zie pagina 112. Op basis hiervan wordt in Jupyter Notebook met Python dit ingegeven.</p>
+            <h4>Een line plot maken met Python</h4>
+            <p>Eerst Matplotlib importeren as mpl en de scriptinterfase als plt. Zie ook screenshots pagina 113.</p>
+        </article>
+        <article class="4-4">
+            <h3>Area Plot</h3>
+            <p>Vlakdiagram en is een uitbreidng van de Lineplot. Het is een grafiek dat geaccumuleerde totalen weergeeft met behulp van getallen of procenten in de tijd. Het is gebaseerd op de Lineplot en wordt vaak gebruikt wanneer men twee of meer hoeveelheden wil vergelijken. <br>
+            Zie pagina 114 - 115 screenshot hoe dit in Python wordt gedaan.</p>
+        </article>
+        <article class="4-4">
+            <h3>Histogram</h3>
+            <p>Een histogram is een manier om de frequentieverdeling van een numerieke dataset weer te geven. <br>
+            Werking: het verdeelt de verspreiding van numerieke gegevens in <span>bakjes</span>, waarbij elk gegevenspunt in de gegevensset toegewezen wordt aan zo'n bakje en vervolgens het aantal gegevenspunten telt dat aan dat bakje is toegewezen. <br>
+            De verticale as is de frequentie of het aantal gegevenspunten in elke bin. De eerste stap bij het maken van het Histogram is het verdelen van de horizontale as in bijvoorbeeld 10 bins van gelijke breedte en dan het Histogram gaan construeren (bouwen) door te tellen hoeveel datapunten een waarde hebben die tussen de limieten van de eerste bin, tweede bin, derde bin, etc. ligt. Pagina 117 screenshot Python. <br>
+            In dit voorbeeld is op te merken dat de bakjes <b>niet</b> uitgelijnd zijn met maatstreepjes op de horizontale as. Dat kan het Histogram moeilijk leesbaar maken. Dat kan eenvoudig worden opgelost. <br>
+            Men kan gebruik maken van de Histogramfunctie uit de Numpy-bibliotheek. Naast de Matplotlib en diens scriptinterfase wordt nu ook de Numpy library geïmporteerd. Voorbeeld screenshot pagina 118.</p>
+        </article>
+        <article class="4-4">
+            <h3>Bar Chart</h3>
+            <p>Staafdiagram, een zeer populaire visualisatietechniek. Het is een type plot waarbij de lengte van elke staaf evenredig is met de waarde van het item dat het vertegenwoordigt. Dit i.t.t. een Histogram. Het wordt vaak gebruikt om de waarden van een variabele op een bepaald tijdstip te vergelijken. Zie screenshots ter voorbeeld voor de code op pagina 119 en 120.</p>
+        </article>
+        <article class="4-4">
+            <h3>Pie Chart</h3>
+            <p>Cirkeldiagram, een cirkelvormige afbeelding die in segmenten verdeeld is om de numerieke verhouding te illustreren. Pagina 121 screenshots van hoe dit te doen met Python. Op pagina 122 voorbeelden van het resultaat.
+            </p>
+        </article>
+        <article class="4-4">
+            <h3>Box Plot</h3>
+            <p>Het is een manier om statistisch de verdeling van gegevens over vijf hoofddimensies weer te geven.</p>
+            <ul>
+                <li>1e dimensie Minimum: kleinste getal in de gesorteerde gegevens</li>
+                <li>2e dimensie Eerste Kwartiel: punt op 25% van de route door de gesorteerde gegevens. Een kwart van deze datapunten is kleiner dan deze waarde.</li>
+                <li>3e dimensie Mediaan: Het middenpunt</li>
+                <li>4e dimensie Derde Kwartiel: Het punt op 75% van de route doorheen de gesorteerde gegevens. Driekwart van de datapunten is kleiner dan deze waarde.</li>
+                <li>Einddimensie Maximum: het hoogste getal in de gesorteerde gegevens.</li>
+            </ul>
+            <p>Pagina 124 screenshots hoe dit te doen met Python. Pagina 124 onderaan een voorbeeld van een Box Plot. Net hetzelfdeo pagina 125.</p>
+        </article>
+
+    </section>
+</body>
+</html>

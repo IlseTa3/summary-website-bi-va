@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>VA Python Code</title>
+</head>
+<body>
+    <h1>Visual Analytics with Python</h1>
+    <h2>HOOFDSTUK 4</h2>
+    <h4>1. Pandas opzetten</h4>
+    <section class="python-code-pandas">
+        <h5>Installatie numpy, pandas en (indien nodig) xlrd</h5>
+        <ul>
+            <li>import numpy as np</li>
+            <li>import pandas as pd</li>
+            <li>installatie van xlrd: !conda install -c anaconda xlrd --yes</li>
+        </ul>
+        <h5>Data uitlezen</h5>
+        <ul>
+            <li>df_can = pd.read_excel('https://s3-api.us-geo.objectstorage.softlayer.net/cf-courses-data/CognitiveClass/DV0101EN/labs/Data_Files/Canada.xlsx', sheet_name = 'Canada by Citizenship', skiprows = range(20), skipfooter = 2)</li>
+            <li>print('Data read into a pandas dataframe!')</li>
+        </ul>
+        
+    </section>
+    <h4>2. Enkele basisfuncties</h4>
+    <section class="basisfuncties-pandas">
+        <h5>Een aantal basisfuncties</h5>
+        <ul>
+            <li>Top 5: df_can.head(). Tussen haakjes kan er een cijfer worden meegegeven hoeveel van de top je wil laten tonen.</li>
+            <li>Last 5: df_can.tail(). Ook hier tussen haakjes kan een exact cijfer worden meegegeven.</li>
+            <li>Om basisinfo van het dataframe te tonen: df_can.info()</li>
+            <li>Om de lijst van kolom hoofdingen weer te geven: df_can.columns.values</li>
+            <li>Indexparameter: df_can.index.values</li>
+            <li>index en columns als lijst: df_can.columns.tolist(), df_can.index.tolist()</li>
+            <li>type van kolom en index afprinten: print(type(df_can.columns.tolist())) en print(type(df_can.index.tolist()))</li>
+            <li>Om de dimensie of vorm van de database te tonen: df_can.shape</li>
+            <li>Onnodige kolommen in dataset verwijderen: df_can.drop(['AREA','REG','DEV','Type','Coverage'], axis=1, inplace=True)</li>
+            <li>Herbenoemen van de kolommen: df_can.rename(columns={'OdName':'Country', 'AreaName':'Continent', 'RegName':'Region'}, inplace=True)</li>
+            <li>Kolom toevoegen, hier Total: df_can['Total'] = df_can.sum(axis=1)
+                print(df_can.head())</li>
+            <li>Check hoeveel null objects er zijn: df_can.isnull().sum()</li>
+            <li>Overzicht van elke kolom: df_can.describe()</li> 
+        </ul>
+        <h6>Opmerking bij toevoegen kolom Total:</h6>
+        <p>Dit veroorzaakt een foutmelding. Het gaat wel met volgende lijncode toe te voegen: <br> 
+            <span class="code">numeric_cols = df_can.select_dtypes(include='number').columns <br>
+            df_can['Total'] = df_can[numeric_cols].sum(axis=1)
+            print(df_can.head())</span>
+        </p>
+    </section>
+    <h4>3. Indexing en Selection Slicing</h4>
+    <section class="indexing-slicing">
+        <h5>Selecteren van een kolom</h5>
+        <p>Twee manieren om te filteren op kolomnaam</p>
+        <ul>
+            <li>df.column_name: geeft een serie weer</li>
+            <li>df['column'] of df[['column 1', 'column 2']]</li>
+            <li>Voorbeeld om Country er uit te filteren: df_can.Country</li>
+            <li>Lijst van Countries en data van 1980 - 1985: df_can[['Country', 1980, 1981, 1982, 1983, 1984, 1985]] # returns a dataframe</li>
+        </ul>
+        <h5>Selecteren van een rij</h5>
+        <p>Selecteren van een rij kan op twee manieren:</p>
+        <ul>
+            <li>df.loc[label]</li>
+            <li>df.iloc[index]</li>
+        </ul>
+        <p>Om query op basis van een specifieke country te doen, moet de country als index value aanzien worden. Hier loopt echter iets mis, want Country wordt niet gevonden. <br>
+        Code zou moeten zijn: <span class="code">df_can.set_index('Country', inplace=True)</span></p>
+        <ul>
+            <li>Naam van de index verwijderen: df_can.index.name = None</li>
+            <li>Alle kolommen: print(df_can.loc['Japan'])</li>
+            <li>Alternatieven die kunnen gebruikt worden zijn: print(df_can.iloc[87])
+            print(df_can[df_can.index == 'Japan'].T.squeeze())</li>
+            <li>Bepaald cijfer afprinten van een bepaald land voor een bepaald jaar: print(df_can.loc['Japan', 2013])</li>
+            <li>Alternatief: print(df_can.iloc[87, 36])</li>
+            <li>Voor een reeks van jaren van een bepaald land cijfers tonen: print(df_can.loc['Japan', [1980, 1981, 1982, 1983, 1984, 1984]])</li>
+            <li>Alternatief: print(df_can.iloc[87, [3, 4, 5, 6, 7, 8]])</li>
+        </ul>
+        <p>Om ambiguïteit te vermijden, worden de kolomnamen met jaartalen naar strings omgezet. Dit doe je op deze manier: <br>
+        <span class="code">df_can.columns = list(map(str, df_can.columns))</span> <br>
+        Nu kunnen we een variabele declareren dat ons zal helpen om een volledige range van jaren te tonen. Dit kan op volgene manier: <span class="code">years = list(map(str, range(1980, 2014)))
+            years</span>
+        </p>
+        <h5>Filteren op basis van een criteria</h5>
+        <p>Om de dataframe te filteren op basis van een conditie, geven we de conditie door als boolean vector. <br>
+        Voorbeeld: <span class="code">condition = df_can['Continent'] == 'Asia'
+            print(condition)</span>, daarna kunnen we de conditie in het dataframe stoppen, aangemaakt in 1. <span class="code">df_can[condition]</span>. <br>
+        Er kunnen meerdere criteria op 1 lijn gezet worden: <span class="code">df_can[(df_can['Continent']=='Asia') & (df_can['Region']=='Southern Asia')]</span>.</p>
+    </section>
+    <h4>4. Visualisatie Data met gebruik van Matplotlib</h4>
+    <section class="visualizing-data-matplotlib">
+        <h5>Opzet Matplotlib en basis</h5>
+        <ul>
+            <li>%matplotlib inline</li>
+            <li>import matplotlib as mpl</li>
+            <li>import matplotlib.pyplot as plt</li>
+            <li> versie: print ('Matplotlib version: ', mpl.__version__)</li>
+            <li>Soort style opzoeken: print(plt.style.available)</li>
+            <li>Specifieke style: mpl.style.use(['ggplot'])</li>
+        </ul>
+    </section>
+    <h4>5. Soorten plotting uit HT4</h4>
+    <section class="plotting-ht4">
+        <h5 class="plotting-ht4-soorten">Line Plots </h5>
+        <article id="line">
+            <p>1. extraheren van de data series voor een bepaald land/gegeven en de top 5 laten tonen: <br>
+            <span class="code">haiti = df_can.loc['Haiti', years]
+                haiti.head()</span> <br>
+            2. Plot toevoegen: <span class="code">haiti.plot()</span> <br>
+            3. Finetunen, zoals titel toevoegen, alsook x-label en de y-label. Ook wordt de lineplot specifiek toegevoegd. Dit ziet er als volgt uit: <br>
+            <span class="code">haiti.index = haiti.index.map(int) <br>
+                haiti.plot(kind='line') <br>
+                plt.title('Immigration from Haiti') <br>
+                plt.ylabel('Number of immigrants') <br>
+                plt.xlabel('Years') <br>
+                plt.show()</span><br>
+
+            Met de plt.text() kan er in de plot zelf tekst worden toegevoegd om iets te duiden. Deze wordt voor de plt.show() ingevoerd.<br>
+            <span class="code">plt.text(2000, 6000, '2010 Earthquake')</span>
+            </p>
+            <p>Pandas plots hebben de indexen op de x-as en de y-as dient als individuele lijnen van de kolommen. Hierdoor lijkt het dat er iets mis is met de gegevens als we twee landen/gegevens naast elkaar willen leggen ter vergelijking. Dit kan makkelijk opgelost worden door de transpose() functie te gebruiken. <br>
+            <span class="code">
+                df_CI = df_can.loc[['China', 'India'], years] <br>
+                df_CI.plot(kind='line') (geeft rare plot weer) <br>
+                df_CI = df_CI.transpose() <br>
+                df_CI.head() <br>
+                df_CI.index = df_CI.index.map(int) <br> 
+                df_CI.plot(kind='line') <br>
+                plt.title('Immigrants from China and India') <br>
+                plt.ylabel('Number of Immigrants') <br>
+                plt.xlabel('Years') <br>
+                plt.show() <br>
+            </span>
+        Hieronder extra voorbeeld voor de top 5 landen die het meest hebben bijgedragen tot immigratie naar Canada. <br>
+        <span class="code">
+            df_can.sort_values(by='Total', ascending=False, axis=0, inplace=True) <br>
+            df_top5 = df_can.head(5) <br>
+            df_top5 = df_top5[years].transpose() <br>
+            print(df_top5) <br>
+            df_top5.index = df_top5.index.map(int) <br>
+            df_top5.plot(kind='line', figsize=(14, 8)) <br>
+            plt.title('Immigration Trend of Top 5 Countries') <br>
+            plt.ylabel('Number of Immigrants') <br>
+            plt.xlabel('Years') <br>
+            plt.show() <br>
+        </span>
+        </p>
+        </article>
+        <h5 class="plotting-ht4-soorten">Area Plots</h5>
+        <article id="area">
+            <p>Allereerst wordt, zoals bij Line plots, data geprepareerd en gedownload, alsook Numpy en Pandas. Dit gaat als volgt te werk: <br>
+            <span class="code">
+                import numpy as np <br>
+                import pandas as pd <br>
+                (indien xlrd nog niet is geïnstalleerd) <br>
+                !conda install -c anaconda xlrd --yes <br>
+                df_can = pd.read_excel('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DV0101EN-SkillsNetwork/Data%20Files/Canada.xlsx',
+                       sheet_name='Canada by Citizenship',
+                       skiprows=range(20),
+                       skipfooter=2) <br>
+                print('Data downloaded and read into a dataframe!')
+            </span> <br>
+            De mogelijkheden om top 5 te tonen, dimensie en kolommen te verwijderen, werden getoond bij de Basistechnieken (zie hierboven), alsook het hernoemen van de kolommen. <br>
+            Voor consistentie zorgen we ervoor dat alle kolomlabels van het type string zijn. Eerst controleren we de types van de kolom labels die we nu hebben. Dat kan met volgende code: <br>
+            <span class="code">all(isinstance(column, str) for column in df_can.columns)</span> <br>
+            Dit geeft een boolean weer, in dit voorbeeld false. Dit wijst er op dat de labels NIET van het type string zijn. Om dit te veranderen kunnen we dat met volgende code doen: <br>
+            <span class="code">
+                df_can.columns = list(map(str, df_can.columns)) <br>
+                (nog eens een check) all(isinstance(column, str) for column in df_can.columns) <br>
+            </span> <br>
+            Vervolgens gaan we de country name als index meegeven. Dit zorgt echter voor een error fout. Code is: <br>
+            <span class="code">
+                df_can.set_index('Country', inplace=True) <br>
+                df_can.head()
+            </span> <br>
+            We gaan ook een Total kolom toevoegen. Zoals bij Line plot is hier een regel code toegevoegd omdat het anders niet werkt. Code ziet er exact hetzelfde uit als bij lineplot. <br>
+            Ook datadimensie met .shape() methode is hetzelfde. Net als een lijst tonen van de jaren 1980 - 2013. Let wel op de range(1980,2014), wat wil zeggen TOT 2014, aangezien de index op 0 begint en niet op 1.
+            </p>
+            <p>Visualisatie, maar eerst herhaling van het installeren van matplotlib en de bijhorende scriptinterfases. Dit is hetzelfde als bij Lineplots.</p>
+            <p>
+                Hieronder een cumulatieve area plot, vergelijkbaar met de Lineplot. <br>
+                <span class="code">
+                    df_can.sort_values(['Total'], ascending=False, axis=0, inplace=True) <br>
+                    df_top5 = df_can.head() <br>
+                    df_top5 = df_top5[years].transpose() <br>
+                    df_top5.head() <br>
+                </span> <br>
+            Standaard staat een area plot als stacked. Om een unstacked area to maken, moet stacked op false staan. Dat resulteert in volgende code: <br>
+            <span class="code">
+                df_top5.index = df_top5.index.map(int) <br>
+                df_top5.plot(kind='area', 
+                                stacked=False,
+                            figsize=(20, 10)) <br>
+                plt.title('Immigration Trend of Top 5 Countries') <br>
+                plt.ylabel('Number of Immigrants') <br>
+                plt.xlabel('Years') <br>
+                plt.show() <br>
+            </span> <br>
+            Om de standaardwaarde van de transparantie aan te passen, kan er de alpha parameter gebruikt worden. Deze standaardwaarde is 0.5. In dit voorbeeld veranderen we dit naar 0.25. <br>
+            <span class="code">
+                df_top5.plot(kind='area', 
+                        alpha=0.25, # 0-1, default value a= 0.5
+                        stacked=False,
+                        figsize=(20, 10),) <br>
+                plt.title('Immigration Trend of Top 5 Countries') <br>
+                plt.ylabel('Number of Immigrants') <br>
+                plt.xlabel('Years') <br>
+                plt.show() <br>
+            </span> <br>
+            Hieronder enkele voorbeelden ter verduidelijking. <br>
+            Het eerste voorbeeld: 5 landen waar het minst immigratie was naar Canada tussen 1980 en 2013, met transparancy alpha van 0.45. Er wordt hier gebruik gemaakt van de scripting layer.<br>
+            <span class="code">
+                df_least5 = df_can.tail(5) <br>
+                df_least5 = df_least5[years].transpose() <br> 
+                df_least5.head() <br>
+                df_least5.index = df_least5.index.map(int) <br>
+                df_least5.plot(kind='area', alpha=0.45, figsize=(20, 10)) <br>
+                plt.title('Immigration Trend of 5 Countries with Least Contribution to Immigration') <br>
+                plt.ylabel('Number of Immigrants') <br>
+                plt.xlabel('Years') <br>
+                plt.show()
+            </span> <br>
+            Tweede voorbeeld maakt gebruikt van de artist layer en heeft een transparantie value van 0.55. Voorbeeld zelfde als het eerste. <br>
+            <span class="code">
+                
+                df_least5 = df_can.tail(5) <br>
+                df_least5 = df_least5[years].transpose() <br> 
+                df_least5.head() <br>
+                df_least5.index = df_least5.index.map(int) <br>
+                ax = df_least5.plot(kind='area', alpha=0.55, stacked=False, figsize=(20, 10)) <br>
+                ax.set_ylabel('Number of Immigrants') <br>
+                ax.set_xlabel('Years') <br>
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht4-soorten">Histograms</h5>
+        <article id="histogram">
+            <p>Eerste deel van de code is opzetten van de frameworks en enkele basistechnieken, alsook installatie van de matplotlibbibliotheek. Zie hierboven. Vanaf hier het maken van een histogram aan de hand van een voorbeeld. We bekijken het aantal populaties van nieuwe immigranten van verschillende landen die naar Canada immigreerden in 2013 en we kijken naar de frequentieverdeling hiervan. <br>
+            <span class="code">
+                df_can['2013'].plot(kind='hist', figsize=(8, 5)) <br>
+                plt.title('Histogram of Immigration from 195 Countries in 2013') <br>
+                plt.ylabel('Number of Countries') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show()
+            </span>
+            </p>
+            <p>Hieronder wat code ter illustratie om een histogram te kunnen tekenen. Steeds met andere parameters/technieken. <br>
+            <span class="code">
+                count, bin_edges = np.histogram(df_can['2013']) <br>
+                print(count) # frequency count <br>
+                print(bin_edges) # bin ranges, default = 10 bins
+            </span> <br>
+            <span class="code">
+                df_can['2013'].plot(kind='hist', figsize=(8, 5)) <br>
+                plt.title('Histogram of Immigration from 195 Countries in 2013') <br>
+                plt.ylabel('Number of Countries') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show()
+            </span> <br>
+            <span class="code">
+                count, bin_edges = np.histogram(df_can['2013']) <br>
+                df_can['2013'].plot(kind='hist', figsize=(8, 5), xticks=bin_edges) <br>
+                plt.title('Histogram of Immigration from 195 countries in 2013') <br>
+                plt.ylabel('Number of Countries') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show()
+            </span> <br>
+            <span class="code">
+                df_can.loc[['Denmark', 'Norway', 'Sweden'], years] <br>
+                df_can.loc[['Denmark', 'Norway', 'Sweden'], years].plot.hist() (dit geeft rare weergave) <br>
+                df_t = df_can.loc[['Denmark', 'Norway', 'Sweden'], years].transpose() (weergave is nu OK) <br>
+                df_t.head() <br>
+                df_t.plot(kind='hist', figsize=(10, 6)) <br>
+                plt.title('Histogram of Immigration from Denmark, Norway, and Sweden from 1980 - 2013') <br>
+                plt.ylabel('Number of Years') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show() <br>
+            </span> <br>
+            <span class="code">
+                Een aantal aanpassingen: <br><br>
+                count, bin_edges = np.histogram(df_t, 15) <br>
+                df_t.plot(kind ='hist', figsize=(10, 6),
+                        bins=15,alpha=0.6,xticks=bin_edges,
+                        color=['coral', 'darkslateblue','mediumseagreen']) <br>
+                plt.title('Histogram of Immigration from Denmark, Norway, and Sweden from 1980 - 2013') <br>
+                plt.ylabel('Number of Years') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show()
+            </span> <br><br>
+            <span class="code">
+                Hier stacked op true en werd er een tuple toegevoegd: <br><br>
+                count, bin_edges = np.histogram(df_t, 15) <br>
+                xmin = bin_edges[0] - 10   <br>
+                xmax = bin_edges[-1] + 10 <br>
+                df_t.plot(kind='hist',
+                        figsize=(10, 6), bins=15, xticks=bin_edges,
+                        color=['coral', 'darkslateblue', 'mediumseagreen'],stacked=True, 
+                        xlim=(xmin, xmax)) <br>
+                plt.title('Histogram of Immigration from Denmark, Norway, and Sweden from 1980 - 2013') <br>
+                plt.ylabel('Number of Years') <br>
+                plt.xlabel('Number of Immigrants') <br> 
+                plt.show()
+            </span> <br><br>
+            <span class="code">
+                Voorbeeld immigratie distributie voor Griekenland, Albanië en Bulgarije <br><br>
+                df_cof = df_can.loc[['Greece', 'Albania', 'Bulgaria'], years] <br>
+                df_cof = df_cof.transpose() <br> 
+                count, bin_edges = np.histogram(df_cof, 15) <br>
+                df_cof.plot(kind ='hist',figsize=(10, 6),bins=15,alpha=0.35, xticks=bin_edges,color=['coral', 'darkslateblue', 'mediumseagreen']) <br>
+                plt.title('Histogram of Immigration from Greece, Albania, and Bulgaria from 1980 - 2013') <br>
+                plt.ylabel('Number of Years') <br>
+                plt.xlabel('Number of Immigrants') <br>
+                plt.show()
+            </span>
+        </p>
+        </article>
+        <h5 class="plotting-ht4-soorten">Bar Charts </h5>
+        <article id="bar-chart">
+        <p>Alle code deze Jupyter Notebook is reeds meerdere malen aan bod gekomen en staat ook in voorgaande rubrieken. Er wordt hier dus beperkt tot hoe je een bepaalde Visualisatietechniek kan gebruiken met Python code. Hieronder hoe je een Bar Chart moet maken. <br>
+            <span class="code">
+                df_belgium.plot(kind='bar', figsize=(10, 6)) <br>
+                plt.xlabel('Year') <br>
+                plt.ylabel('CO2 Emission in tons') <br>
+                plt.title('CO2 Emission from Belgium between 2000 and 2018') <br>
+                plt.show() <br>
+            </span> <br>
+        Om een Bar Chart te tonen van twee variabelen. In dit voorbeeld de Co² Emmissie van België en Nederland. <br>
+            <span class="code">
+                decennium = list(map(str, range(2010, 2019))) <br>
+                decennium <br>
+                X = [] <br>
+                for year in range(2010, 2019): <br>
+                &emsp;    X = X + [year] <br>
+                X_axis = np.arange(9) <br>
+                plt.bar(X_axis - 0.2, df_co2.loc['Netherlands', decennium], 0.4, label = 'NL', color = 'blue') <br>
+                plt.bar(X_axis + 0.2, df_co2.loc['Belgium', decennium], 0.4, label = 'BE', color = 'red') <br>
+                plt.xticks(X_axis, X) <br>
+                plt.xlabel("Years") <br>
+                plt.ylabel("CO2 Emission") <br>
+                plt.title("CO2 Emission in Belgium and The Netherlands") <br>
+                plt.legend() <br>
+                plt.show() <br>
+            </span> <br>
+            Om een horizontale bar chart te maken, kan dit opvolgende manier. Eerst wordt de data opgehaald, nadien wordt de code geschreven om een Bar chart te maken, met horizontale vorm. <br>
+            <span class="code">
+                Data ophalen: <br>
+                df_co2.sort_values(by='Total', ascending=True, inplace=True) <br>
+                df_top15 = df_co2['Total'].head(15) <br>
+                df_top15 <br>
+                Horizontale Bar Chart: <br>
+                df_top15.plot(kind='barh', figsize=(12, 12), color='steelblue') <br>
+                plt.xlabel('Total CO2 Emission') <br>
+                plt.title('Top 15 Countries Contributing the least to the European CO2 Emission between 2000 and 2018') <br>
+                for index, value in enumerate(df_top15): <br>
+                &emsp;label = format(int(value), ',')
+                &emsp;(subtracting 47000 from x, and 0.1 from y to make it fit within the bar) <br>
+                &emsp;plt.annotate(label, xy=(value - 47000, index - 0.10), color='black') <br>
+                plt.show() <br>
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht4-soorten">Pie-charts </h5>
+        <article id="pie-chart">
+            <p>Hieronder stappenplan hoe je een Pie chart kan maken. <br>
+            <span class="code">
+                1. Data ophalen: <br>
+                df_continents = df_can.groupby('Continent', axis=0).sum() <br>
+                print(type(df_can.groupby('Continent', axis=0))) <br>
+                df_continents.head() <br><br>
+                2. Data plotten, m.b.v. kind = pie <br>
+                df_continents['Total'].plot(kind='pie',figsize=(5, 6), <br>
+                &emsp;  autopct='%1.1f%%',startangle=90,shadow=True,) <br>
+                plt.title('Immigration to Canada by Continent [1980 - 2013]') <br>
+                plt.axis('equal') <br>
+                plt.show() <br><br>
+                3. Pie Chart verfraaien: <br>
+                colors_list = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lightgreen', 'pink'] <br>
+                explode_list = [0.1, 0, 0, 0, 0.1, 0.1] <br> 
+                df_continents['Total'].plot(kind='pie',figsize=(15, 6), <br>
+                &emsp;  autopct='%1.1f%%', <br>
+                &emsp;  startangle=90,shadow=True,labels=None,pctdistance=1.12, <br>
+                &emsp;  colors=colors_list,explode=explode_list) <br>
+                plt.title('Immigration to Canada by Continent [1980 - 2013]', y=1.12) <br>
+                plt.axis('equal') <br>
+                plt.legend(labels=df_continents.index, loc='upper left') <br>
+                plt.show() <br> <br>
+                4. Kleine overlappingen aanpassen: <br>
+                explode_list = [0.0, 0, 0, 0.1, 0.1, 0.2] <br>
+                df_continents['2013'].plot(kind='pie',figsize=(15, 6), <br>
+                &emsp;  autopct='%1.1f%%', startangle=90, <br>   
+                &emsp;  shadow=True,labels=None,pctdistance=1.12, <br>
+                &emsp;  explode=explode_list) <br>
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht4-soorten">Box plots</h5>
+        <article id="boxplot">
+        <p>Ter herhaling hier nog eens de volledige code, met ook voorbereiden en ophalen van de data. <br>
+            <span class="code">
+                1. Preparatie Data: <br>
+                import numpy as np <br>
+                import pandas as pd <br>
+                df_co2 = pd.read_excel('CO2-Data-Europe.xlsx') <br><br>
+                2. Data cleanen (overbodige dingen weglaten): <br>
+                df_co2.columns = list(map(str, df_co2.columns)) <br>
+                df_co2.set_index('Country', inplace=True) <br>
+                numeric_cols = df_co2.select_dtypes(include='number').columns <br>
+                df_co2['Total'] = df_co2[numeric_cols].sum(axis=1) <br>
+                years = list(map(str, range(2000, 2019))) <br>
+                print('data dimensions:', df_co2.shape) <br> <br>
+                3. Visualisatie Data met Matplotlib: <br>
+                %matplotlib inline <br>
+                import matplotlib as mp <br>l
+                import matplotlib.pyplot as plt <br>
+                mpl.style.use('ggplot') # optional: for ggplot-like style <br>
+                print('Matplotlib version: ', mpl.__version__) # >= 2.0.0 <br> <br>
+                4. Boxplot tekenen met Python: <br>
+                df_france = df_co2.loc[['France'], years].transpose() <br>
+                df_france.head() <br>
+                df_france.plot(kind='box', figsize=(8, 6)) <br>
+                plt.title('Box plot of French CO2 Emissions in the period 2000 - 2018') <br>
+                plt.ylabel('CO2 Emissions') <br>
+                plt.show() <br><br>
+                5. Boxplot verfraaien: <br>
+                df_FIS = df_co2.loc[['France', 'Italy', 'Spain'], years].transpose() <br>
+                df_FIS.head() <br>
+                df_FIS.plot(kind='box', figsize=(10, 7)) <br>
+                plt.title('Box plot of CO2 Emissions in the period 2000 - 2018 in France, Italy and Spain') <br>
+                plt.ylabel('CO2 Emissions') <br>
+                plt.show() <br> <br>
+                6. Horizontale boxplot: <br>
+                df_FIS.plot(kind='box', figsize=(10, 7), color='blue', vert=False) <br>
+                plt.title('Box plots of CO2 Emissions in the period 2000 - 2018 in France, Italy and Spain') <br>
+                plt.xlabel('CO2 Emissions') <br>
+                plt.show() <br> <br>
+                7. Subplots: <br>
+                fig = plt.figure() # create figure <br>
+                ax0 = fig.add_subplot(1, 2, 1) # add subplot 1 (1 row, 2 columns, first plot) <br>
+                ax1 = fig.add_subplot(1, 2, 2) # add subplot 2 (1 row, 2 columns, second plot). <br><br>
+                # Subplot 1: Box plot <br>
+                df_FIS.plot(kind='box', color='blue', vert=False, figsize=(20, 6), ax=ax0) <br>
+                ax0.set_title('Box plots of CO2 Emissions in the period 2000 - 2018 in France, Italy and Spain') <br>
+                ax0.set_xlabel('CO2 Emissions') <br>
+                ax0.set_ylabel('Countries') <br><br>
+                # Subplot 2: Line plot <br>
+                df_FIS.plot(kind='line', figsize=(20, 6), ax=ax1) <br>
+                ax1.set_title ('Line plots of CO2 Emissions in the period 2000 - 2018 in France, Italy and Spain') <br>
+                ax1.set_ylabel('CO2 Emissions') <br>
+                ax1.set_xlabel('Years') <br>
+                plt.show() <br> <br>
+                8. Extra voorbeeld: Top 15 met 2 lijsten (2000's en 2010's): <br>
+                years_2000s = list(map(str, range(2000, 2010))) <br>
+                years_2010s = list(map(str, range(2010, 2019))) <br> <br>
+                # slice the original dataframe df_co2 to create a series for each decade <br>
+                df_2000s = df_co2top15.loc[:, years_2000s].sum(axis=1) <br>
+                df_2010s = df_co2top15.loc[:, years_2010s].sum(axis=1) <br><br>
+                # merge the two series into a new data frame <br>
+                new_co2df = pd.DataFrame({'2000s': df_2000s, '2010s': df_2010s}) <br><br>
+                # display dataframe <br>
+                new_co2df.head() <br>
+                new_co2df.plot(kind='box', figsize=(10, 6)) <br>
+                plt.title('CO2 Emissions from top 15 countries for decades 2000 and 2010s') <br>
+                plt.show() <br>
+            </span>
+        </p>
+        </article>
+    </section>
+
+    <h2>HOOFDSTUK 5</h2>
+    <section class="plotting-ht5">
+        <h5 class="plotting-ht5-soorten">Scatter Plot of Spreidingsdiagram</h5>
+        <article id="scatter">
+            <p>Voor opzet van data en dataframe, zie HT 4. Hier wordt beperkt tot enkel de code voor het maken van een bepaalde plot. In deze sectie: een Scatter plot. Hieronder het stappenplan. <br>
+            <span class="code-5">
+                Stap 1: Dataset ophalen: <br>
+                df_tot = pd.DataFrame(df_co2[years].sum(axis=0)) <br>
+                # change the years to type int (useful for regression later on) <br>
+                df_tot.index = map(int, df_tot.index) <br>
+                # reset the index to put in back in as a column in the df_tot dataframe <br>
+                df_tot.reset_index(inplace = True) <br>
+                # rename columns <br>
+                df_tot.columns = ['year', 'total'] <br>
+                # view the final dataframe <br>
+                df_tot.head() <br><br>
+                Stap 2: Data Plotten met scatter: <br>
+                df_tot.plot(kind='scatter', x='year', y='total', figsize=(10, 6), color='darkblue') <br>
+                plt.title('Total CO2 Emissions in 2000 - 2018') <br>
+                plt.xlabel('Year') <br>
+                plt.ylabel('CO2 Emissions') <br>
+                plt.show() <br>
+            </span>
+            In een scatterplot worden datapunten niet met elkaar geconnecteerd. Je ziet enkel dots of punten die voor een bepaalde datagegeven staat. Door middel van een regressielijn kan je de evolutie van de data beter volgen. Hieronder hoe dit te doen. <br>
+            <span class="code-5">
+                Stap 1: Verkrijg de vergelijking van de lijn met beste pasvorm: <br>
+                x = df_tot['year'] <br>  
+                y = df_tot['total'] <br>
+                fit = np.polyfit(x, y, deg=1) <br>
+                fit <br> <br>
+                Stap 2: Plotten van de regressielijn op de scatter plot: <br>
+                df_tot.plot(kind='scatter', x='year', y='total', figsize=(10, 6), color='darkblue') <br>
+                plt.title('Total CO2 Emissions in 2000 - 2018') <br>
+                plt.xlabel('Year') <br>
+                plt.ylabel('CO2 Emissions') <br>
+                # plot line of best fit <br>
+                plt.plot(x, fit[0] * x + fit[1], color='red') <br>
+                plt.annotate('y={0:.0f} x + {1:.0f}'.format(fit[0], fit[1]), xy=(2000, 150000)) <br>
+                plt.show() <br>
+                # print out the line of best fit <br>
+                'Amount CO2 Emissions = {0:.0f} * Year + {1:.0f}'.format(fit[0], fit[1]) <br>
+            </span>
+            Hieronder nog een extra voorbeeld van scatterplot dat de totale CO2 emissie toont van de landen Denemarken, Noorwegen en Zweden voor de jaren 2000 - 2018. <br>
+            <span class="code-5">
+                Stap 1: Data ophalen: <br>
+                df_countries = df_co2.loc[['Denmark', 'Norway', 'Sweden'], years].transpose() <br>
+                # create df_total by summing across three countries for each year <br>
+                df_total = pd.DataFrame(df_countries.sum(axis=1)) <br>
+                # reset index in place <br>
+                df_total.reset_index(inplace=True) <br>
+                # rename columns <br>
+                df_total.columns = ['year', 'total'] <br>
+                # change column year from string to int to create scatter plot <br>
+                df_total['year'] = df_total['year'].astype(int) <br>
+                # show resulting dataframe <br>
+                df_total.head() <br> <br>
+                Stap 2: Scatter plot genereren: <br>
+                df_total.plot(kind='scatter', x='year', y='total', figsize=(10, 6), color='darkblue') <br>
+                plt.title('CO2 Emissions from Denmark, Norway, and Sweden from 2000 - 2018') <br>
+                plt.xlabel('Year') <br>
+                plt.ylabel('CO2 Emissions') <br>
+                plt.show() <br>
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht5-soorten">Bubble Plots</h5>
+        <article id="bubble">
+            <p>In deze sectie gaat het over Bubble plots. Hieronder de werking en enkele voorbeelden hoe je zo'n Bubble Plot in Python kan maken. <br>
+            <span class="code-5">
+                Stap 1: Data ophalen voor Brazilië en Argentinië: <br>
+                df_can_t = df_can[years].transpose() # transposed dataframe <br>
+                # cast the Years (the index) to type int <br>
+                df_can_t.index = map(int, df_can_t.index) <br>
+                # let's label the index. This will automatically be the column name when we reset the index <br>
+                df_can_t.index.name = 'Year' <br>
+                # reset index to bring the Year in as a column <br>
+                df_can_t.reset_index(inplace=True) <br>
+                df_can_t.head() <br> <br>
+                Stap 2: Creatie "normalized weights" <br>
+                norm_brazil = (df_can_t['Brazil'] - df_can_t['Brazil'].min()) / (df_can_t['Brazil'].max() - df_can_t['Brazil'].min()) <br>
+                # normalize Argentina data <br>
+                norm_argentina = (df_can_t['Argentina'] - df_can_t['Argentina'].min()) / (df_can_t['Argentina'].max() - df_can_t['Argentina'].min()) <br> <br>
+                Stap 3: Data plotten met behulp van scatter plot <br>
+                # Brazil <br>
+                # We use a scatter plot <br>
+                ax0 = df_can_t.plot(kind='scatter',x='Year',y='Brazil', <br>
+                &emsp;&emsp;             figsize=(14, 8),alpha=0.5, <br>
+                &emsp;&emsp;             color='green',s=norm_brazil * 2000 + 10, <br>
+                &emsp;&emsp;             xlim=(1975, 2015)) <br>
+                # Argentina <br>
+                ax1 = df_can_t.plot(kind='scatter', <br>
+                &emsp;&emsp;            x='Year',y='Argentina',alpha=0.5,color="blue", <br>
+                &emsp;&emsp;            s=norm_argentina * 2000 + 10,ax = ax0) <br>
+                ax0.set_ylabel('Number of Immigrants') <br>
+                ax0.set_title('Immigration from Brazil and Argentina from 1980 - 2013') <br>
+                ax0.legend(['Brazil', 'Argentina'], loc='upper left', fontsize='x-large') <br>
+            </span>
+            Tweede voorbeeld van een Bubble plot dat de immigratie weergeeft van China en India naar Canada tussen 1980 en 2013. <br>
+            <span class="code-5">
+                Stap 1: Normaliseren van de data <br>
+                norm_china = (df_can_t['China'] - df_can_t['China'].min()) / (df_can_t['China'].max() - df_can_t['China'].min()) <br>
+                # normalize India data <br>
+                norm_india = (df_can_t['India'] - df_can_t['India'].min()) / (df_can_t['India'].max() - df_can_t['India'].min()) <br> <br>
+                Stap 2: Genereer de bubble plots: <br>
+                ax0 = df_can_t.plot(kind='scatter',x='Year',y='China', <br>
+                &emsp;&emsp;    figsize=(14, 8), <br>
+                &emsp;&emsp;    alpha=0.5,color='green', <br>
+                &emsp;&emsp;    s=norm_china * 2000 + 10,xlim=(1975, 2015)) <br>
+                ax1 = df_can_t.plot(kind='scatter',x='Year',y='India', <br>
+                &emsp;&emsp;    alpha=0.5,color="blue", <br>
+                &emsp;&emsp;    s=norm_india * 2000 + 10,ax = ax0) <br>
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht5-soorten">Waffle Charts</h5>
+        <article id="waffle">
+            <p>Hieronder de volledige code,  van opstart tot resultaat om een waffle chart te tonen. Aangezien dit redelijk complex is, het volledig opzet hieronder. <br>
+            <span class="code-5">
+                1. Modules importeren <br>
+                import numpy as np <br>
+                import pandas as pd <br>
+                from PIL import Image <br> <br>
+                2. Warnings uitschakelen: <br>
+                import warnings <br>
+                warnings.filterwarnings("ignore") <br><br>
+                (indien nodig en nog niet geïnstalleerd) <br>
+                !conda install -c anaconda xlrd --yes <br> <br>
+                3. Downloaden van de dataset in een pandas dataframe: <br>
+                df_can = pd.read_excel('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DV0101EN-SkillsNetwork/Data%20Files/Canada.xlsx', <br>
+                &emsp;       sheet_name='Canada by Citizenship', <br>
+                &emsp;       skiprows=range(20),skipfooter=2) <br>
+                print('Data downloaded and read into a dataframe!') <br> <br>
+                4. Data opschonen: <br>
+                # clean up the dataset to remove unnecessary columns (eg. REG) <br>
+                df_can.drop(['AREA','REG','DEV','Type','Coverage'], axis = 1, inplace = True) <br>
+                # let's rename the columns so that they make sense <br>
+                df_can.rename (columns = {'OdName':'Country', 'AreaName':'Continent','RegName':'Region'}, inplace = True) <br>
+                # for sake of consistency, let's also make all column labels of type string <br>
+                df_can.columns = list(map(str, df_can.columns)) <br>
+                # set the country name as index - useful for quickly looking up countries using .loc method <br>
+                df_can.set_index('Country', inplace = True) <br>
+                # add total column <br>
+                numeric_cols = df_can.select_dtypes(include='number').columns #necessary to use this Total column, or it does not work!! <br>
+                df_can['Total'] =  df_can[numeric_cols].sum(axis = 1) <br>
+                # years that we will be using in this lesson - useful for plotting later on <br>
+                years = list(map(str, range(1980, 2014))) <br>
+                print ('data dimensions:', df_can.shape) <br> <br>
+                Stap 5: Importeren van Matplotlib: <br>
+                %matplotlib inline <br>
+                import matplotlib as mpl <br>
+                import matplotlib.pyplot as plt <br>
+                import matplotlib.patches as mpatches # needed for waffle Charts <br>
+                mpl.style.use('ggplot') # optional: for ggplot-like style <br>
+                # check for latest version of Matplotlib <br>
+                print ('Matplotlib version: ', mpl.__version__) # >= 2.0.0 <br> <br>
+                Stap 6.1: Maken van de waffle chart <br>
+                # let's create a new dataframe for these three countries <br>
+                df_dsn = df_can.loc[['Denmark', 'Norway', 'Sweden'], :] <br>
+                # let's take a look at our dataframe <br>
+                df_dsn <br> <br>
+                Stap 6.2: Bepalen wat de proportie is voor elke categorie met respect tot het totaal <br>
+                # compute the proportion of each category with respect to the total <br>
+                total_values = sum(df_dsn['Total']) <br>
+                category_proportions = [(float(value) / total_values) for value in df_dsn['Total']] <br>
+                # print out proportions <br>
+                for i, proportion in enumerate(category_proportions): <br>
+                &emsp;    print (df_dsn.index.values[i] + ': ' + str(proportion)) <br><br>
+                Stap 6.3: Definieer de algemene grootte van de waffle chart <br>
+                width = 40 # width of chart <br>
+                height = 10 # height of chart <br>
+                total_num_tiles = width * height # total number of tiles <br>
+                print ('Total number of tiles is ', total_num_tiles) <br> <br>
+                Stap 6.4: De proportie van elke categorie gebruiken om het aantal tegels te bepalen. <br>
+                # compute the number of tiles for each catagory <br>
+                tiles_per_category = [round(proportion * total_num_tiles) for proportion in category_proportions] <br>
+                # print out number of tiles per category <br>
+                for i, tiles in enumerate(tiles_per_category): <br>
+                &emsp;    print (df_dsn.index.values[i] + ': ' + str(tiles)) <br><br>
+                Stap 6.5: Matrix maken dat een wafel moet voorstellen en dit populeren <br>
+                # initialize the waffle chart as an empty matrix <br>
+                waffle_chart = np.zeros((height, width)) <br>
+                # define indices to loop through waffle chart <br>
+                category_index = 0 <br>
+                tile_index = 0 <br>
+                # populate the waffle chart <br>
+                for col in range(width): <br>
+                &emsp;    for row in range(height): <br>
+                &emsp;&emsp;       tile_index += 1 <br>
+                &emsp;&emsp;       # if the number of tiles populated for the current category is equal to its corresponding allocated tiles... <br>
+                &emsp;&emsp;       if tile_index > sum(tiles_per_category[0:category_index]): <br>
+                &emsp;&emsp;        # ...proceed to the next category <br>
+                &emsp;&emsp;        category_index += 1 <br>                  
+                &emsp;&emsp;        # set the class value to an integer, which increases with class <br>
+                &emsp;&emsp;        waffle_chart[row, col] = category_index <br>         
+                print ('Waffle chart populated!') <br><br>
+                (afprinten matrix waffle chart) <br>
+                waffle_chart <br><br>
+                Stap 6.6: Mappen van de waffle chart matrix in een visual <br>
+                # instantiate a new figure object <br>
+                fig = plt.figure() <br>
+                # use matshow to display the waffle chart <br>
+                colormap = plt.cm.coolwarm <br>
+                plt.matshow(waffle_chart, cmap=colormap) <br>
+                plt.colorbar() <br> <br>
+                Stap 6.7: Chart opsmukken <br>
+                # instantiate a new figure object <br>
+                fig = plt.figure() <br>
+                # use matshow to display the waffle chart <br>
+                colormap = plt.cm.coolwarm <br>
+                plt.matshow(waffle_chart, cmap=colormap) <br>
+                plt.colorbar() <br>
+                # get the axis <br>
+                ax = plt.gca() <br>
+                # set minor ticks <br>
+                ax.set_xticks(np.arange(-.5, (width), 1), minor=True) <br>
+                ax.set_yticks(np.arange(-.5, (height), 1), minor=True) <br>
+                # add gridlines based on minor ticks <br>
+                ax.grid(which='minor', color='w', linestyle='-', linewidth=2) <br>
+                plt.xticks([]) <br>
+                plt.yticks([]) <br> <br>
+                Stap 6.8: Legende maken en aan de chart toevoegen: <br>
+                # compute cumulative sum of individual categories to match color schemes between chart and legend <br>
+                values_cumsum = np.cumsum(df_dsn['Total']) <br>
+                total_values = values_cumsum[len(values_cumsum) - 1] <br>
+                # create legend <br>
+                legend_handles = [] <br>
+                for i, category in enumerate(df_dsn.index.values): <br>
+                &emsp;    label_str = category + ' (' + str(df_dsn['Total'][i]) + ')' <br>
+                &emsp;    color_val = colormap(float(values_cumsum[i])/total_values) <br>
+                &emsp;    legend_handles.append(mpatches.Patch(color=color_val, label=label_str)) <br>
+                # add legend to chart <br>
+                plt.legend(handles=legend_handles, <br>
+                &emsp;     loc='lower center', <br>
+                &emsp;     ncol=len(df_dsn.index.values), <br>
+                &emsp;     bbox_to_anchor=(0., -0.2, 0.95, .1)) <br><br>
+            </span>
+            Bovenstaande stappen voor maken van een waffle chart kan in één simpele functie gestoken worden. Code hieronder (???? moeten nog vervangen worden). <br>
+            <span class="code-5">
+                def create_waffle_chart(categories, values, height, width, colormap, value_sign=''):
+                # compute the proportion of each category with respect to the total
+                total_values = sum(??????)
+                category_proportions = [(float(value) / ????????????) for value in values]
+                # compute the total number of tiles
+                total_num_tiles = width * height # total number of tiles
+                print ('Total number of tiles is', ????????????????)
+                # compute the number of tiles for each catagory
+                tiles_per_category = [round(proportion * total_num_tiles) for proportion in category_proportions]
+                # print out number of tiles per category
+                for i, tiles in enumerate(tiles_per_category):
+                    print (df_dsn.index.values[i] + ': ' + str(tiles))
+                # initialize the waffle chart as an empty matrix
+                waffle_chart = np.zeros((???????, ?????))
+                # define indices to loop through waffle chart
+                category_index = 0
+                tile_index = 0
+                # populate the waffle chart
+                for col in range(width):
+                    for row in range(height):
+                        tile_index += 1
+                # if the number of tiles populated for the current category 
+                # is equal to its corresponding allocated tiles...
+                if tile_index > sum(tiles_per_category[0:category_index]):
+                    # ...proceed to the next category
+                    category_index += 1       
+                # set the class value to an integer, which increases with class
+                waffle_chart[row, col] = category_index
+                # instantiate a new figure object
+                fig = plt.figure()
+                # use matshow to display the waffle chart
+                colormap = plt.cm.coolwarm
+                plt.matshow(waffle_chart, cmap=colormap)
+                plt.colorbar()
+                # get the axis
+                ax = plt.gca()
+                # set minor ticks
+                ax.set_xticks(np.arange(-.5, (width), 1), minor=True)
+                ax.set_yticks(np.arange(-.5, (height), 1), minor=True)
+                # add dridlines based on minor ticks
+                ax.grid(which='minor', color='w', linestyle='-', linewidth=2)
+                plt.xticks([])
+                plt.yticks([])
+                # compute cumulative sum of individual categories to match color schemes between chart and legend
+                values_cumsum = np.cumsum(values)
+                total_values = values_cumsum[len(values_cumsum) - 1]
+                # create legend
+                legend_handles = []
+                for i, category in enumerate(categories):
+                    if value_sign == '%':
+                        label_str = category + ' (' + str(values[i]) + value_sign + ')'
+                    else:
+                        label_str = category + ' (' + value_sign + str(values[i]) + ')'
+                    color_val = colormap(float(values_cumsum[i])/total_values)
+                    legend_handles.append(mpatches.Patch(color=color_val, label=label_str))
+                # add legend to chart at the lower in the center
+                plt.legend(
+                    handles=legend_handles,
+                    loc='????? ???????', 
+                    ncol=len(categories),
+                    bbox_to_anchor=(0., -0.2, 0.95, .1)) <br>
+                    width = 40 # width of chart
+                    height = 10 # height of chart  
+                categories = df_dsn.index.values # categories
+                values = df_dsn['Total'] # correponding values of categories  
+                colormap = plt.cm.coolwarm # color map class
+                create_waffle_chart(categories, values, height, width, colormap)
+            </span>
+            </p>
+        </article>
+        <h5 class="plotting-ht5-soorten">Regression Plots</h5>
+        <article id="regression"></article>
+        <h5 class="plotting-ht5-soorten">Cartogram</h5>
+        <article id="cartogram"></article>
+    </section>
+
+    <h6><a href="./index.html">Terug naar samenvatting</a></h6>
+</body>
+</html>

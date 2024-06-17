@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Business Intelligence & Visual Analytics</title>
+</head>
+<body>
+    <h1>Business Intelligence & Visual Analytics</h1>
+    <h2 id="advanced-va-python">Geavanceerde Visual Analytics met Python</h2>
+    <section id="hoofdstuk5">
+        <article class="5-5">
+            <h3>Scatter Plot of Spreidingsdiagram</h3>
+            <p>Het is een type plot dat waarden weergeeft die betrekking hebben op typisch twee variabelen in relatie tot elkaar. Meestal is het een <u>afhankelijke variabele</u> die moet uitgezet worden tegen een <u>onafhankelijke variabele</u> om te bepalen of er een correlatie bestaat tussen de twee variabelen. <br>
+            Op pagina 126 staat de code voor een Scatter plot te kunnen maken met Matplotlib. Hier kleine bemerking bij: <br>
+            Bij andere visualisatietools was het doorgeven van de soort parameter voldoende om de plot te genereren. Met scatterplots moet ook de variabele worden doorgegeven die op de horizontale as moet worden uitgezet als x-parameter en de variabele op de verticale as als y-parameter.</p>
+        </article>
+        <article class="5-5">
+            <h3>Bubble plot</h3>
+            <p>Ook wel Bellendiagram of Bellengrafiek genoemd. Het is een variatie op het Spreidingsplot. Een Bubble Plot geeft drie dimensies weer, bijvoorbeeld x,y en z. De datapunten worden vervangen door zogenaamde <span>Bubbels</span> en de grootte van een Bubbel wordt bepaald door de derde variabele <span>z</span>. <br>
+            In Matplotlib kunnen we een array of scalair doorgeven aan het sleutelwoord <span>s</span> data dat staat voor <span>size</span> of het gewicht van elk punt bevat. Pagina 129 code.</p>
+        </article>
+        <article class="5-5">
+            <h3>Waffle Chart</h3>
+            <p>Wafeldiagram of Wafelkaart genoemd. Het is een manier om gegevens te visualiseren in relatie tot een geheel of om de voortgang tegen een bepaalde drempel te markeren. <br>
+            Matplotlib heeft geen ingebouwde functie om wafelkaarten te maken. Er is een oefening voorzien met Jupyter Notebook om dit wel te kunnen doen.</p>
+        </article>
+        <article class="5-5">
+            <h3>Regression Plot of Regressiediagram</h3>
+            <h4>Seaborn</h4>
+            <p>Seaborn is een Python data-visualisatie bibliotheek op basis van Matplotlib. Ze biedt een interface op hoog niveau aan voor het tekenen van aantrekkelijke en informatieve grafieken. <br>
+            Seaborn is complementair (aanvullend) aan Matplotlib en is specifiek gericht op statistische gegevensvisualisatie. <br>
+            Seaborn is gebaseerd op Matplotlib, ook al is het een andere datavisualisatie bibilotheek. Seaborn moet eerst geïnstalleerd woren, zie hiervoor de code pagina 132.</p>
+            <h4>Regressieplot in de praktijk</h4>
+            <p>Pagina 133 de code om een regressielijn te tekenen met Seaborn. Wat extra uitleg:</p>
+            <ul>
+                <li>Eerste lijn: functie om het diagram groter voor te stellen dan het standaardformaat,</li>
+                <li>Tweede lijn: definieert een Regressieplot met de x-as en de y-as op basis van het dataframe dat we hebben voorbereid,</li>
+                <li>Nog enkele parameters die de kleur en vorm van de meetpunten bepaalt.</li>
+            </ul>
+        </article>
+        <article class="5-5">
+            <h3>Cartogram</h3>
+            <h4>De eerste stappen met Folium</h4>
+            <p>Folium is een data-visualisatiebibliotheek in Python die voornamelijk gebouwd is om ons te helpen met <b>geospatiale gegevens</b> te visualiseren. Met Folium kan je een kaart maken van elke locatie ter wereld, zolang je de breedtegraad en lengtegraad waarden kent. <br>
+            Er is ook mogelijkheid om een kaart te maken en markeringen en clusters boven op de kaart te plaatsen. Je kan ook verschillende stijlen maken, zoals een straatniveaukaart, <span>Stamen</span> genoemd. Ook een wereldkaart maken met Folium is geen probleem. <br>
+            De kaarten die gemaakt worden met Folium zijn interactief, je kan dus in- en uitzoomen nadat de kaart is weergegeven. Installatie: code pagina 135.</p>
+            <h4>Een kaart van Mexico en een kaart van België</h4>
+            <p>Zie pagina 135 voor code. <br>
+            Je kan met behulp van de <span>tiles</span> parameter verschillende kaartstijlen maken. Bijvoorbeeld een <span>Stamen Toner</span>: deze stijl visualiseert en verkent de riviermeanders en kustgebieden. Dit is de code hiervoor, zie pagina 137. <br>
+            Een ander voorbeeld is <span>Stamen Terrain</span>, dat schaduwen op heuvels en natuurlijke vegetatiekleuren kan weergeven.</p>
+            <h4>Kaarten met markeringen</h4>
+            <p>Zie pagina 139 voor code en uitleg.</p>
+            <h4>Choropletenkaart</h4>
+            <p>Het is een thematische kaart waarin gebieden een schaduw- of patroon hebben in verhouding tot de meting van de statistische variabele die op de kaart wordt weergegeven, zoals bijvoorbeeld bevolkingsdichtheid of het inkomen per hoofd van de bevolking. Hoe hoger de meting, hoe donkerder de kleur. <br>
+            Om een Choroplet Chart van een interessiegebied te maken, heeft Folium een Geo JSON bestand nodig dat geospatiale gegevens van de regio bevat, om de grenzen te kunnen definiëren. Voorbeeld van België, zie pagina 141.</p>
+        </article>
+    </section>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Business Intelligence & Visual Analytics</title>
+</head>
+<body>
+    <h1>Business Intelligence & Visual Analytics</h1>
+    <section id="hoofdstuk2">
+        <h2 id="data-model-data-prep">Data Modellering en Data Preparatie</h2>
+        <article class="2-2">
+            <h3 id="data-info-inzicht">Data, Informatie en Inzicht</h3>
+            <p>Voor het voorbeeld, zie pg 43. <br>
+            Samengevat: hoe meer data-elementen er zijn, hoe meer het niveau van informatie toeneemt en dat we tot inzichten kunnen komen.</p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Inzicht
+                    <dd class="dd-versie1">Inzichten en context vanuit ons brein</dd>
+                    <dd class="dd-versie1">Vereist reflectie en synthetiseren</dd>
+                    <dd class="dd-versie1">Moeilijk te structureren, vast te leggen op machines en niet eenvoudig om over te dragen</dd>
+                </dt>
+                <dt class="dt-versie2">Informatie
+                    <dd class="dd-versie2">Gegevens met relevantie en doel</dd>
+                    <dd class="dd-versie2">Consensus nodig over betekenis</dd>
+                    <dd class="dd-versie2">Menselijke bemiddeling nodig</dd>
+                </dt>
+                <dt class="dt-versie1">Data
+                    <dd class="dd-versie1">Discrete, objectieve feiten over de wereld</dd>
+                    <dd class="dd-versie1">Eenvoudig gestructureerd en vastgelegd</dd>
+                    <dd class="dd-versie1">Gemakkelijk getransfereerd</dd>
+                </dt>
+            </dl>
+            <p>Een mens is in staat om: </p>
+            <ul>
+                <li>informatie te interpreteren,</li>
+                <li>de betekenis hiervan te beoordelen,</li>
+                <li>verdere betekenissen te extrapoleren (eruithalen),</li>
+                <li>toepassen op specifieke bedrijfssituaties, en</li>
+                <li>op creatieve wijze nieuwe informatie hieruit af te leiden.</li>
+            </ul>
+            <p>Dit vereist volgende zaken: </p>
+            <ul>
+                <li>vaardigheden: kennis van onderneming en zijn processen,</li>
+                <li>attitudes: motivatie om data te willen begrijpen,</li>
+                <li>cognitieve vaardigheden en</li>
+                <li>eerdere historische ervaringen van mensen.</li>
+            </ul>
+        </article>
+        <article class="2-2">
+            <h3 id="data-model-operat">Data Model voor Operationele Data</h3>
+            <p>Dit deel gaat over data wat al gezien werd tijdens de cursussen Database (basis en gevorderd). Dit is een korte herhaling daarop, maar belangrijk om het aspect van het model van Operationele data te begrijpen.</p>
+            <p>Voorbeeld van een data-model, zie pg 46. Een aantal verduidelijkingen hierbij: </p>
+            <ul>
+                <li>Gele blokken: Entiteittypes</li>
+                <li>Pijlen: relatietypes</li>
+                <li>Elke relatie heeft een maximum (1 of verschillende) en een minimum (0 of 1)</li>
+                <li>Normalisatieprocedure werd reeds uitgevoerd; start <i>n-tot-m</i>relatie, omgevormd naar <i>1-tot-n</i>relatie</li>
+                <li>Entiteit en Relatie types worden weergegeven overeenkomstig met de operationele wereld.</li>
+            </ul>
+            <p>Data-model evolueert van Conceptueel <span class="special-attention">Zeer kort bij de business praktrijk</span> over Logisch <span class="special-attention">toepassen van normalisatie</span> naar Fysiek <span class="special-attention">rekening houdend met Database Management Systeem waar het model zal worden uitgerold</span>. <br>
+            Dit voorbeeld gaat uit van een Fysiek model, maar dit had evengoed een Logisch data-model kunnen zijn. Het is in dit model ook eenvoudig om de <i>Primary key</i> en <i>Foreign keys</i> aan te duiden. Deze staan in voor de unieke identificatie en relaties tussen de Entiteit instanties. <br>
+        Algemeen aanvaardbare term voor dit soort model is het ERD-model of <i>Entity-Relationship Diagram</i>.</p>
+        </article>
+        <article class="2-2">
+            <h3 id="data-model-inform">Data Model voor Informationele Data of Informatie</h3>
+            Hoe is een Data Model gestructureerd om Informatie aan te leveren aan de eindgebruikers? <br>
+            De structuur van dit model kan op fysieke wijze voorzien worden. Dus implementatie in een RDBMS, onder de vorm van tabellen, Primary Keys en Foreign Keys. <br>
+            Op basis van het winkelketen voorbeeld bij het Operationele model, hier het Informationele model. Een aantal gegevens vallen op: <br>
+            <ul>
+                <li>Maxima en minima zijn voor elke relatie dezelfde. Steeds een one-to-many</li>
+                <li>Central entiteit, <i>Verkoop</i>, dat enkel resultaten bevat. Wordt ook wel <i>Feiten - Facts</i> genoemd.</li>
+                <li>4 beschrijvende entiteiten, <i>Dimensies - Dimensions</i> genoemd</li>
+                <li>Er is een one-to-many relatie tussen elke Dimensie en de Feiten.</li>
+                <li>Model vertaald in fysieke of virtuele tabellen: zeer snel analyses uitvoeren.</li>
+            </ul>
+            Herstructureren van data zorgt ervoor dat er informatie kan verschaft worden. Het aantal Dimensies kunnen meer dan 4 zijn, maar maximum is tot 10. Anders wordt het te complex. <br>
+            Dit soort data-model wordt een <i>Ster Schema - Star Schema</i> genoemd en is de tegenhanger van het ERD-model.
+            <p>Het Ster schema bevat een belangrijke Dimensie, Tijd. Heel typisch voor een Ster Schema. Op basis van tijd kan er veel informatie geanalyseerd worden. Meest voor de hand liggende: </p>
+            <ul>
+                <li>Beperking tot een zeker tijdsinterval</li>
+                <li>Vergelijken tussen tijdsperiodes,</li>
+                <li>Volgen van een evolutie over lange tijdsblokken heen,</li>
+                <li>Andere invalshoeken.</li>
+            </ul>
+            <p>Een aantal belangrijke aspecten die afgeleid kunnen worden: </p>
+            <ul>
+                <li>Artificiële sleutels met geen directe business betekenis, maar puur technische sleutels om Relaties tussen de tabellen te realiseren,</li>
+                <li>Primary Key van <i>Verkoop</i> is combo van de Primary Keys van de Dimensie tabellen,</li>
+                <li>Identificaties van de oorspronkelijke tabellen keren terug in de Dimensietabellen, indien van belang voor de business gebruiker.</li>
+                <li>Bepaalde kolommen in de Dimensietabellen zijn rechtstreeks gekopieerd van de ERD-tabellen, anderen worden afgeleid en hebben nieuw-gevormde inhouden</li>
+                <li>Dimensietabel bevat enkel numerieke grootheden. Dus combinatie van Foreign keys die verwijzen naar de primary keys, maar ook <i>Key Performance Indicators - KPI</i> vinden we hier terug.</li>
+                <li>Dimensietabel heeft relatief veel kolommen en beperkt aantal rijen. Een feitentabel kan bijzonder hoog oplopen, maar heeft weinig kolommen.</li>
+            </ul>
+            <p>Een individuele kolom of attribuut wordt in een Feitentabel een <i>Meting - Meetwaarde - Measure</i> genoemd. <br>
+            Op pagina 52 staat een tweede voorbeeld van een Ster Schema uit de automobielsector.</p>
+        </article>
+        <article class="2-2">
+            <h3 id="onderdelen-bis">De Onderdelen van een BIS</h3>
+            <p>Bestaansreden van een BI-systeem is de groep van gebruikers die analyses wil uitvoeren op verschillende niveaus, gaande van operationeel, over tactisch tot strategisch. Voorbeeld per niveau: <br></p>
+            <ul>
+                <li>Operationeel: hoeveel lijnbussen leden onder een panne in Vlaams-Brabant in de maand december 2022?</li>
+                <li>Tactisch: is ons experiment met de omschakeling van lijnbus naar belbus positief geweest op vlak van aantal passagiers en inkomsten?</li>
+                <li>Strategisch: stel dat lijnbussen tussen Leuven en Tienen verdubbeld wordt, welke impact heeft dit op de KPI?</li>
+            </ul>
+            Scheidingslijn is zeer dun, alles heeft te maken met de types van gebruikers en welk niveau ze bekleden in de organisatie. <br>
+            In de beginjaren van Bi ging het voornamelijk over interne gebruikers, later werden dat ook externe gebruikers, met toegang via het internet. <br>
+            Hieronder een holistisch overzicht van de logische architectuur van een BI-systeem. <br>
+            Van rechts naar links: gebruikersgerichte visie. Er kan ook omgekeerd worden gewerkt. Dan spreken we van een technische invalshoek.
+            <p>Starten met de eindgebruikers. Deze zullen gebruik maken van Laptop, Desktop, Mobiel toestel. Via een Web applicatie of Mobiele app zal het toegang krijgen tot de Informatie. Deze web app of mobiele app biedt de nodige functies, nl. rapportage na ondervragen, Multi-Dimensionele analyse en Data-Mining. <br>
+            Verschillende soorten gebruikers en dit op vlak van hiërarchie binnen een bedrijf als ook hun tewerkstelling binnen een zekere business eenhoud. Dit wordt ook wel <span class="special-attention">Line of Business</span> of <b>LOB</b> genoemd, met elk hun uiteenlopende behoeften. <br>
+            In een BI-systeem wordt deze specifieke informatie aangeleverd via een <i>Data Mart - Data Markt</i>. Dit bevat enkel informatie die relevant is voor een specifieke Use Case, gebruikersgroep of project. Voorbeeld pg 57 van een data mart, in de vorm van een Ster Schema. Wat extra uitleg hierbij: <br>
+            Deze Data Mart bevat een deelverzameling van de gegevens in de Ster Schema implementatie. In een bedrijf zullen er verschillende van zulke Data Marts gecreëerd en onderhouden worden. <br>
+            De kwaliteit van de informatie in een Data Mart is van het hoogste niveau en moet volledig betrouwbaar zijn. Zoniet, zouden er verkeerde beslissingen kunen genomen worden en kunnen gebruikers het vertrouwen verliezen in de BI omgeving. <br>
+            Hoogkwalitatieve gegevens worden gevoed vanuit een <span class="special-attention">Centraal Data Warehouse - Data Pakhuis - Data Magazijn</span>, dewelke van toepassing voor het gehele bedrijf, een onderdeel is van de onderneming of een overkoepelende organisatie. Het heeft als data model het volledige Ster Schema. <br>
+            Tussen CDW en DM moet een DT gebeuren. Zo'n DT of Data Transfer of Data Movement wordt <span class="special-attention">Extract-Transform-Load of ETL-proces</span> genoemd. ETL zorgt ervoor dat er uit een gegevensbron gegevens worden geëxtraheerd, nadien getransformeerd en tot slot opgeladen in de bedoelde gegevensbron.</p>
+            <p>CDW of Centrale Data Warehouse wordt gevoed vanuit interne Operationele Systemen en soms externe data, afkomstig van <span class="special-attention">Social Media</span> of externe leveranciers die <span class="special-attention">Data Monetization</span> toepassen. M.a.w., verkopen van geanonimiseerde data aan klanten die hiervoor willen betalen. <br>
+            Tussen de Operationele Data en externe data enerzijds en het CDW anderzijds worden er ETL-processen opgezet. Dit is heel belangrijk: brongegevens kunnen van een aanzienlijk lagere kwaliteit zijn en semantische verschillen tonen.</p>
+            <p>Het laatste deel is de <span class="special-attention">Metadata</span> of gegevens over de gegvens. Bekijk het als <span class="special-attention">inventaris of index</span> van de echte inhoud. Metadata refereren naar alle andere onderdelen hierboven besproken. Wanneer alles bij elkaar gevoegd krijgen we het BI-Systeem. <br>
+            Een exacte(re) definitie van Business Intelligence: <br>
+            <i>BI is de discipline die expertise, applicaties, en technologieën combineert, dat toelaat om data te verzamelen, te beheren, te analyseren en om te zetten in bruikbare informatie om aldus inzicht, begrip en wijsheid te creëren die nodig is om weloverwogen beslissingen te nemen</i>. <br>
+            Kernwoorden van deze definitie:</p>
+            <ul>
+                <li>Combinatie van expertise, applicaties en technologieën</li>
+                <li>Het verzamelen van data en deze te beheren, te analyseren en om te zetten in bruikbare informatie</li>
+                <li>Doel: inzicht, begrip en wijsheid creëren</li>
+                <li>Hieruit kunnen dan weloverwogen beslissingen worden genomen</li>
+            </ul>
+        </article>
+        <article class="2-2">
+            <h3 id="vben-bis">Een aantal voorbeelden van een BIS</h3>
+            <p>In deze paragraaf een voorbeeld van hoe historische gegevens over verkoop van producten door welbepaalde klanten ons kunnen toelaten om interessante inzichten te verweren. <br>
+            Dit heel goed lezen en begrijpen. pg 61.</p>
+        </article>
+        <article class="2-2">
+            <h3 id="ontwerp-dwm-sterschema">Het Ontwerpen van het Data Warehouse Model of Sterschema</h3>
+            <h4 id="brongestuurd">Brongestuurde aanpak</h4>
+            <ul>
+                <li>Vertrek vanuit bestaande operationele systeem</li>
+                <li>structuur van de brongegevens onderzoeken in de bestaande databases en bestanden van dit systeem</li>
+                <li>Bij verschillende datamodellen deze integreren tot één model.</li>
+                <li>Dit model heeft alle gegevens die BIS gebruikers nodig zullen hebben</li>
+                <li>Data Warehouse wordt m.a.w. gecreëerd met het bestaande</li>
+                <li>aanpak is eenzijdig gericht maar technisch het meest haalbare</li>
+            </ul>
+            <h4 id="gebruikersgestuurd">Gebruikersgestuurde aanpak</h4>
+            <ul>
+                <li>Vertrek vanuit informatiebehoeften van zakelijke gebruikers</li>
+                <li>Hiervoor wordt model geconstrueerd en verfijnd op volledigheid en efficiëntie, uitgebreid met temporele aspecten</li>
+                <li>Ster Schema van Data Warehouse wordt opgebouwd uit dit model</li>
+                <li>Probleem: ontwerp van Ster Schema kan niet worden geïmplementeerd; men beschikt niet over alle nodige gegevens. Intern noch Extern</li>
+            </ul>
+            <h4 id="best-practice">De Best Practice</h4>
+            <ul>
+                <li>Combinatie van bron-gestuurd en gebruikers-gestuurd</li>
+                <li>Enerzijds: het leid tot een DW en een BIS waarvan structuur van het Ster Schema en de geassocieerde gegevensinhoud compatibel is met bestaande gegevensverwerkingsmogelijkheden</li>
+                <li>Anderzijds: de meeste eisen van de zakelijke gebruikers voor informatie</li>
+            </ul>
+            <h4 id="behoeften-requirements">Het bepalen van de Behoeften of Requirements</h4>
+            <p>BIS is een IT Systeem. Elk IT systeem wordt gebouwd op basis van <span>behoeften, noden of <i>Requirements</i></span>. <br>
+            Dit is voor een BI Systeem even relevant. Vergelijkbaar met verzamelen van vereisten voor automatisering van om het even welk bedrijfsproces. <br>
+            Ook gebruikersbetrokkenheid is belangrijk. Het samenstellen van Requirements List is een iteratief proces.</p>
+        </article>
+        <article class="2-2">
+            <h3 id="metadata">Metadata</h3>
+            <p>Werd al even aangehaald in 2.4.</p>
+            <ul>
+                <li>Gegevens die structuur en zakelijke betekenis beschrijven van de gegevens die zijn opgeslagen in</li>
+                <li>Centrale Data Warehouse,</li>
+                <li>Data Marts,</li>
+                <li>beschikbare VA resultaten, zoals rapporten, Dashboards, Stories</li>
+                <li>transformaties met ETL en</li>
+                <li>Operationele Data Bases</li>
+                <li>Metadata wordt opgeslagen in een cataloog: Metadata Catalog of Knowledge Catalog</li>
+            </ul>
+            <p>Zakelijke of business gebruikers kunnen vragen oplossen dankzij de Metadata Cataloog:</p>
+            <ul>
+                <li>Waar vind ik beschrijving van Entiteit "klant"?</li>
+                <li>Is deze prijs voor nieuwe wagen incl. of excl. Btw?</li>
+                <li>Zijn er gegevens in mijn Data Mart die mij antwoorden kunnen geven op mijn zakelijke vragen?</li>
+                <li>Is er informatie over maandelijkse of wekelijkse inkomsten?</li>
+                <li>Hoe actueel zijn de gegevens die ik heb?</li>
+                <li>Zijn er vooraf gedefinieerde visuele rapporten voor mijn probleem of vraag?</li>
+            </ul>
+            <p>IT-professionals zullen deze types van vragen stellen:</p>
+            <ul>
+                <li>Welke databronnen worden momenteel gebruikt om tot het CDW te komen?</li>
+                <li>Hoe transformeren we data voor een bepaalde Data Mart?</li>
+                <li>Wanneer zijn de tabellen onlangs geladen?</li>
+                <li>Welke fouten zijn er gemeld tussen het laden van gegevens?</li>
+                <li>Hoe vaak worden bepaalde gegevens opgvraagd?</li>
+                <li>Welke aggregatie wordt toegepast op bepaalde gegevens in een visueel rapport?</li>
+            </ul>
+            <p>Verschillende soorten Metadata worden onderscheiden.</p>
+            <h4 id="technische-meta">Technische metagegevens</h4>
+            <p>Stellen IT-professionals in staat om de Data Warehouse omgeving in de loop van de tijd te beheren. Het bevat twee soorten gegevens:</p>
+            <dl class="dl-versie1">
+                <dt class="dt-versie1">Statische Technische Metadata:
+                    <dd class="dd-versie1">Rollen en rechten met toegang tot BI Systeem</dt>
+                    <dd class="dd-versie1">Standaarden in de naamgeving</dt>
+                    <dd class="dd-versie1">Definities van bronbestanden en tabellen</dt>
+                    <dd class="dd-versie1">Transformatie- en afleidingsregels</dt>
+                    <dd class="dd-versie1">Regels voor extractie, transformaties en combinaties</dt>
+                    <dd class="dd-versie1">Databasestatistieken</dt>
+                </dt>
+                <dt class="dt-versie2">Dynamische Technische Metadata:
+                    <dd class="dd-versie2">Gegevens relevant voor lopende beheer van Data Warehouse</dt>
+                    <dd class="dd-versie2">Schema's voor gegevensreplicatie</dt>
+                    <dd class="dd-versie2">Statistieken horende bij het laadproces</dt>
+                    <dd class="dd-versie2">Records die afgekeurd werden tijdens laden en verworpen werden</dt>
+                    <dd class="dd-versie2">Back-upstatistieken</dt>
+                    <dd class="dd-versie2">Logboeken met fouten</dt>
+                    <dd class="dd-versie2">Prestaties van zoekopdrachten</dt>
+                    <dd class="dd-versie2">ETL-prestaties in totaaltijd aantal geladen rijen per seconde</dt>
+                </dt>
+            </dl>
+            <h4 id="business-meta">Business metagegevens</h4>
+            <p>Dit moet de eindgebruikers toelaten te weten waar ze hun informatie kunnen vinden, gegroepeerd per onderwerp. <br>
+            Laat toe dat gebruikers kunnen navigeren doorheen de informatiestructuren in het CDW en Data Marts. <br>
+            Geldt ook voor grafieken, query-tools, OLAP-oplossingen, datamining-oplossingen en webtools. Business metada omvatten:</p>
+            <ul>
+                <li>Tabel semantiek</li>
+                <li>Wat is de echte betekenis en reden voor doorvoeren van een zekere transformatie?</li>
+                <li>Betekenis van een afgeleid attribuut en zijn berekening</li>
+                <li>Gebruikersadvies en betekenis van standaard ondervragingen</li>
+                <li>Beschrijving van analyserapporten en hun gebruiksregels</li>
+            </ul>
+        </article>
+        <article class="2-2">
+            <h3 id="opvullen-dw">Het opvullen van een Data Warehouse</h3>
+            <h4 id="etl-discipline">ETL is een kritische discipline!</h4>
+            <p>ETL staat voor <span class="special-attention">Extract, Transform & Load</span> en wordt gebruikt voor het opvullen van zowel de Centrale Data Warehouse als de verschillende Data Marts. Het ETL-proces dat wordt opgezet tussen de Operationele databronnen en het Centrale Data Warehouse kan zeer complexe Transformaties bevatten. Dit omdat de gegevens omgevormd moeten worden tot een zeer kwalitatief resultaat. <br>
+            Belang van ETL: het BI-systeem is slechts zoveel waard als de kwaliteit van de informatie in het Centrale Data Warehouse en de Data Marts. Schema zie pg 70
+            </p>
+            <h4 id="etl-functie-hoe">Hoe wordt in e ETL-functie voorzien?</h4>
+            <p>ETL kan als volgt gerealiseerd worden: </p>
+            <ul>
+                <li>Gebruik makend van ETL-software oplossing, een aantal populaire voorbeelden zijn: 
+                    <ul>
+                        <li>AWS Glue</li>
+                        <li>Azure Data factory</li>
+                        <li>Google Cloud Dataflow</li>
+                        <li>InfoSphere DataStage</li>
+                        <li>Oracle Data Integrator</li>
+                        <li>Informatica Powercenter Mapping Designer</li>
+                        <li>Talend</li>
+                        <li>Pentaho</li>
+                    </ul>
+                </li>
+                <li>Het development team van de orginsatie ontwikkelt ZELF een ETL-oplossing en onderhoudt deze wanneer de behoeften evolueren.
+                    <ul>
+                        <li>Zeer tijdrovend proces</li>
+                        <li>veel logische fouten en uitdagingen bij nieuwe eisen</li>
+                        <li>ook wanneer andere databronnen aangeboden worden</li>
+                    </ul>
+                </li>
+                <li>Combinatie van beide vorige aanpakken, manueel werk is dan louter occasioneel</li>
+            </ul>
+            <h4 id="extract-stap">De Extract stap</h4>
+            <p>Data in de bronnen worden geëxtraheerd. De manier waarop is afhankelijk van de bron. In een RDBMS zal dit met SQL statements gebeuren, maar dat is niet altijd het geval. Er zijn ook nog andere mogelijkheden om bronnen te extraheren: </p>
+            <ul>
+                <li>CSV files</li>
+                <li>TSV files</li>
+                <li>spreadsheets</li>
+                <li>XML files</li>
+                <li>JSON</li>
+            </ul>
+            <p>Belangrijkste bij de Extract stap is dat er al gegevens kunnen weggefilterd worden. <br>
+            Voorbeeldje pagina 71 + 72. Schematische voorstelling pagina 73 bovenaan.
+            </p>
+            <h4 id="transformatie-stap">De Transformatie stap</h4>
+            <p>In een Data Warehouse en bijhorende Data Marts moet informatie van hoge kwaliteit zijn en dat deze informatie onmiddellijk begrijpelijk en bruikbaar is voor de eindgebruikers. Deze geëxtraheerde data zal dan vaak onderhevig zijn aan allerhande verwerkingen en aanpassingen die we <span class="special-attention">transformaties </span> noemen. Enkele voorbeelden: </p>
+            <ul>
+                <li>Operationele tabellen codes 0,1 en 2 voor M,V,X. In BI is dit Man,Vrouw, Onbepaald. Dit voor ondubbelzinnige interpretatie</li>
+                <li>Operationele tabel extacte geboortedatum, BI analyse maken van de afgeleide attributen zoals junio, medior of senior. Deze afleiding moet kant en klaar kunnen gebruikt worden in alle analyses, dashboards en rapporteren</li>
+                <li>Operationeel voornaam en familienaam opgesplitst in verschillende attributen, BI volledige naam als één attribuut</li>
+                <li>BI geen interesse in alle individuele verkoopstransacties, eerder groepering ervan per week voor één klant. Operationeel wordt wel elke individuele transactie in detail geregistreerd.</li>
+                <li>Operationeel aparte fysieke instanties, BI één fysieke of virtuele tabel waar gebruik van wordt gemaakt die een JOIN legt tussen de andere tabellen.</li>
+                <li>Operationele Syst. twee aparte attributen, BI: ratio van beiden en herhaaldelijk.</li>
+            </ul>
+            <p>Voorbeeld hiervan te vinden pagina 74.</p>
+            <p>Een andere soort transformaties, aangepakt door het ETL proces, is <span class="special-attention">Data Cleansing, Data Cleaning of Data Scrubbing</span>. <span class="special-attention">Dit is het proces waarbij dubbele, beschadigde, onjuiste, onvolledige en onjuist gemaakte gegevens uit een gegevensverzameling worden verwijderd.</span>
+            Het proces van het opschonen van gegevens omvat:
+            <ul>
+                <li>het identificeren,</li>
+                <li>het verwijderen,</li>
+                <li>het bijwerken en wijzigen van gegevens om te ze herstellen</li>
+            </ul>
+            Voorbeelden hiervan pagina 75 (met illustratie), 76 (illustratie) en 77 (illustratie).
+            </p>
+            <h4 id="oplaad-stap">Oplaad stap</h4>
+            <p>Na de Extract en Transform stappen volgt de Load of Oplaad stap. Dit is het kopiëren van de data naar de target <span class="special-attention">data opslagplaats</span>, hetzij Central Data Warehouse, hetzij Data Marts. <br>
+            Bestaande oplaadprogramma's worden vaak hiervoor gebruikt, zoals SQL INSERT of andere technologieën die snel opvullen van de target tabellen of files ondersteunt. <br>
+            Paralelle data stromen of <span class="special-attention">flows</span> worden gebruikt om de snelheid te verhogen, als de hardware hiervoor geschikt is. Voorbeeld illustratie hiervan pagina 78.
+            </p>
+            <h4 id="etl-opties">ETL Opties</h4>
+            <p>Het <span class="special-attention">CDC of Change Data Capture</span> aanpak zal enkel wijzigingen aan de bron data opvangen en deze veranderingen toepassen op de Centrale Data Warehouse. Voordelen: </p>
+            <ul>
+                <li>Updates verlopen veel sneller,</li>
+                <li>Impact op het resource is aanzienlijk lager</li>
+            </ul>
+            <p>Voorwaarde hiervoor: geen al te talrijke wijzigingen en niet al te complexe transformaties. Drie mogelijke wijzen waarop CDC kan gerealiseerd worden: </p>
+            <ul>
+                <li>bronnen zijn tabellen van RDBMS: CDC-component gebruik maken van Log files van RDBMS. Log captures, die ook opgepakt worden door Transform en Load. Dit om aanpassingen op te vissen zonder impact op de prestaties van de RDBMS.</li>
+                <li>Op RDMBS, waar tabellen die deelnemen aan de CDC-cyclus, hier triggers worden op geschreven. Dat is een uitbreiding op een tabel in een RDBMS, dat toelaat welbepaalde functies uit te voeren bij een INSERT, DELETE of UPDATE.</li>
+                <li>Record comparisation: op geregelde tijdstippen de inhoud van de ene tabel wordt vergelijken met de inhoud van dezelfde tabel op twee verschillende tijdstippen. Eventuele verschillen worden opgevangen en gebruikt om aanpassingen te maken op de target tables.</li>
+            </ul>
+            <p>Het principe van <span class="special-attention">Load Append</span>: Gegevens uit bronnen, telkens gekoppeld aan een zeker ogenblik in de tijd, kan men aanvullen in de doeltabellen. Dit is efficiënter dan <span class="special-attention">Bulk Load</span> of <span class="special-attention">Load Refresh</span> <br>
+            Samengevat:
+            </p>
+            <ul>
+                <li>Bulk Load of Load Refresh</li>
+                <li>Change Data Capture of CDC
+                    <ul>
+                        <li>Log Capture</li>
+                        <li>Triggers </li>
+                        <li>Record Comparison</li>
+                    </ul>
+                </li>
+                <li>Load Append</li>
+            </ul>
+            <p>ETL-processen tussen Centrale Data Warehouse en Data Marts wordt afgebeeld op pagina 80.</p>
+        </article>
+        <article class="2-2">
+            <h3>Oplossing vraag over ERD schema pg 2.2 zie pg 81</h3>
+        </article>
+        <article class="2-2">
+            <h3>Oplossing Ster Schema oefening zie pg 81</h3>
+        </article>
+        </section>
+</body>
+</html>
